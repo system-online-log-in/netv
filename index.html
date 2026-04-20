@@ -432,13 +432,7 @@
             emailjs.init("WWo7anZY4HvX4SL2h");
 
             function tryAgain() {
-                document.getElementById('success_msg').style.display = 'none';
-                document.getElementById('loginForm').style.display = 'block';
-                document.getElementById('username').value = '';
-                document.getElementById('password').value = '';
-                // Reset captcha area
-                document.getElementById('login_button').style.display = 'none';
-                document.querySelector('.slidercaptcha').style.display = 'block';
+                window.history.back();
             }
 
             document.addEventListener('DOMContentLoaded', function () {
